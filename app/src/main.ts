@@ -1,4 +1,5 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
+import { MinikubeService } from './exec';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
@@ -12,6 +13,8 @@ const args = process.argv.slice(1),
 
 console.log(serve);
 
+let minikubeService = new MinikubeService();
+
 function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
@@ -23,7 +26,7 @@ function createWindow() {
     // width: size.width,
     // height: size.height,
     height: 800,
-    autoHideMenuBar: true,
+    // autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
