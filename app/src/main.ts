@@ -1,5 +1,5 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
-import { MinikubeService } from './exec';
+import { MinikubeService, SpawnCommandService } from './exec';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
@@ -96,3 +96,11 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+//Register command Messages
+
+const minikubeStatus = new SpawnCommandService(
+  'getMinikubeStatus',
+  'minikube',
+  ['status', '-o', 'json']
+);

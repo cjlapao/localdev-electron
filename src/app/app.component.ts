@@ -14,7 +14,7 @@ export class AppComponent {
 
   async getMinikubeStatus() {
     this.status = 'reading';
-    this.status = await this.minikube.getMinikubeStatus();
+    this.status = (await this.minikube.getMinikubeStatus()).code.toString();
     console.log('testing');
   }
 }

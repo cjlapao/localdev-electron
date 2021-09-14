@@ -1,3 +1,4 @@
+import { SpawnCommandResponse } from './../../../app/src/interfaces/SpawnCommandResponse';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
 
@@ -19,12 +20,14 @@ export class MinikubeService {
     }
   }
 
-  async getMinikubeStatus(): Promise<string> {
+  getMinikubeStatus(): Promise<SpawnCommandResponse> {
     return new Promise((v) => {
-      this._ipc.sendSync('getMinikubeStatusAsync');
+      console.log('before send');
+      this._ipc.send('getMinikubeStatus');
       console.log('test');
-      this._ipc.on('getMinikubeStatusAsyncResponse', (event, arg) => {
+      this._ipc.on('getMinikubeStatusResponse', (event, arg) => {
         console.log('test1');
+        console.log(arg);
         v(arg);
       });
     });
