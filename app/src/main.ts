@@ -1,5 +1,5 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
-import { MinikubeService, SpawnCommandService } from './exec';
+import { SpawnCommandService } from './services/SpawnCommandService';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
@@ -13,7 +13,6 @@ const args = process.argv.slice(1),
 
 console.log(serve);
 
-let minikubeService = new MinikubeService();
 
 function createWindow() {
   const electronScreen = screen;

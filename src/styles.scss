@@ -1,1 +1,128 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --sash-size: 4px;
+}
+:root {
+  --unit: 8px;
+  --padding: var(--unit);
+  --margin: var(--unit);
+  --border-radius: 3px;
+  --font-main: "Roboto", "Helvetica", "Arial", sans-serif;
+  --font-monospace: Lucida Console, Monaco, Consolas, monospace;
+  --font-size-small: calc(1.5 * var(--unit));
+  --font-size: calc(1.75 * var(--unit));
+  --font-size-big: calc(2 * var(--unit));
+  --font-weight-thin: 300;
+  --font-weight-normal: 400;
+  --font-weight-bold: 500;
+  --main-layout-header: 40px;
+  --drag-region-height: 22px;
+}
+
+:root {
+  --blue: #3d90ce;
+  --magenta: #c93dce;
+  --golden: #ffc63d;
+  --halfGray: #87909c80;
+  --primary: #3d90ce;
+  --textColorPrimary: #8e9297;
+  --textColorSecondary: #a0a0a0;
+  --textColorTertiary: #909ba6;
+  --textColorAccent: #ffffff;
+  --textColorDimmed: #8e92978c;
+  --borderColor: #4c5053;
+  --borderFaintColor: #373a3e;
+  --mainBackground: #1e2124;
+  --secondaryBackground: #1e2125;
+  --contentColor: #262b2f;
+  --layoutBackground: #2e3136;
+  --layoutTabsBackground: #252729;
+  --layoutTabsActiveColor: #ffffff;
+  --sidebarBackground: #36393e;
+  --sidebarLogoBackground: #414448;
+  --sidebarActiveColor: #ffffff;
+  --sidebarSubmenuActiveColor: #ffffff;
+  --sidebarItemHoverBackground: #3a3e44;
+  --buttonPrimaryBackground: #3d90ce;
+  --buttonDefaultBackground: #414448;
+  --buttonLightBackground: #f1f1f1;
+  --buttonAccentBackground: #e85555;
+  --buttonDisabledBackground: #808080;
+  --tableBgcStripe: #2a2d33;
+  --tableBgcSelected: #383c42;
+  --tableHeaderBackground: #262b2f;
+  --tableHeaderBorderWidth: 1px;
+  --tableHeaderBorderColor: #36393e;
+  --tableHeaderColor: #ffffff;
+  --tableSelectedRowColor: #ffffff;
+  --helmLogoBackground: #ffffff;
+  --helmImgBackground: #414448;
+  --helmStableRepo: #3d90ce;
+  --helmIncubatorRepo: #ff7043;
+  --helmDescriptionHr: #41474a;
+  --helmDescriptionBlockquoteColor: #bbb;
+  --helmDescriptionBlockquoteBorder: #8a8f93;
+  --helmDescriptionBlockquoteBackground: #3b4348;
+  --helmDescriptionHeaders: #3e4147;
+  --helmDescriptionH6: #6a737d;
+  --helmDescriptionTdBorder: #47494a;
+  --helmDescriptionTrBackground: #1c2125;
+  --helmDescriptionCodeBackground: #ffffff1a;
+  --helmDescriptionPreBackground: #1b1f21;
+  --helmDescriptionPreColor: #b4b5b4;
+}
+
+body {
+  font: var(--font-size) var(--font-main);
+}
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: inherit;
+  line-height: inherit;
+}
+body {
+  font-family: system-ui, -apple-system,
+    /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+body {
+  margin: 0;
+}
+
+.flex {
+  display: flex;
+  --flex-grid: 12;
+}
+
+.ClusterManager {
+  --bottom-bar-height: 22px;
+  display: grid;
+  grid-template-areas:
+    "menu topbar"
+    "menu main"
+    "bottom-bar bottom-bar";
+  grid-template-rows: auto 1fr min-content;
+  grid-template-columns: min-content 1fr;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 3px;
+
+  &.green {
+    background-color: #009933;
+  }
+
+  &.red {
+    background-color: #cc3300;
+  }
+}

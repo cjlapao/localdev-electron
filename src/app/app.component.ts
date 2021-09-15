@@ -8,13 +8,13 @@ import { MinikubeService } from './services/minikube.service';
 })
 export class AppComponent {
   title = 'electron-angular-helloworld';
-  status = 'unknown';
+  public status = 'unknown';
 
   constructor(private minikube: MinikubeService) {}
 
   async getMinikubeStatus() {
     this.status = 'reading';
-    this.status = (await this.minikube.getMinikubeStatus()).code.toString();
+    this.status = (await this.minikube.getMinikubeStatus()).toString();
     console.log('testing');
   }
 }

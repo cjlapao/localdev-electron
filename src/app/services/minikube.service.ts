@@ -1,3 +1,4 @@
+import { MinikubeStatusMessage, MinikubeStatus } from './../entities/minikube';
 import { SpawnCommandResponse } from './../../../app/src/interfaces/SpawnCommandResponse';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
@@ -20,15 +21,20 @@ export class MinikubeService {
     }
   }
 
-  getMinikubeStatus(): Promise<SpawnCommandResponse> {
+  getMinikubeStatus(): Promise<MinikubeStatus> {
     return new Promise((v) => {
-      console.log('before send');
       this._ipc.send('getMinikubeStatus');
-      console.log('test');
       this._ipc.on('getMinikubeStatusResponse', (event, arg) => {
-        console.log('test1');
-        console.log(arg);
-        v(arg);
+        const response: SpawnCommandResponse = arg
+        response.output.forEach( out => {
+          let msg: MinikubeStatusMessage;
+          msg = JSON.parse(out);
+          if (msg.data.message.indexOf("not found.") > -1) {
+            v(MinikubeStatus.NotFound)
+          }
+        })
+
+        v(MinikubeStatus.Unknown);
       });
     });
   }

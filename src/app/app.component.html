@@ -1,1 +1,10 @@
 <button (click)="getMinikubeStatus()">Test</button> <label>{{ status }} </label>
+
+<div class="BottomBar flex">
+  <span
+    class="dot"
+    [class.green]="status === 'RUNNING'"
+    [class.red]="status !== 'RUNNING'"
+  ></span>
+  <a *ngIf="status === 'NOTFOUND'">Create</a> 
+</div>

@@ -1,0 +1,10 @@
+.BottomBar {
+  --flex-gap: 4px;
+  background-color: var(--blue);
+  padding: 0 2px;
+  height: var(--bottom-bar-height);
+}
+
+.BottomBar {
+  grid-area: bottom-bar;
+}
