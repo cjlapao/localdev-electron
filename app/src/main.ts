@@ -13,7 +13,6 @@ const args = process.argv.slice(1),
 
 console.log(serve);
 
-
 function createWindow() {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
@@ -24,12 +23,14 @@ function createWindow() {
     // y: 0,
     // width: size.width,
     // height: size.height,
+    width: 700,
     height: 800,
     // autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
       allowRunningInsecureContent: serve ? true : false,
+      webSecurity: false,
       contextIsolation: false, // false if you want to run e2e test with Spectron
       enableRemoteModule: true, // true if you want to run e2e test with Spectron or use remote module in renderer context (ie. Angular)
     },
@@ -97,9 +98,4 @@ app.on('window-all-closed', () => {
 });
 
 //Register command Messages
-
-const minikubeStatus = new SpawnCommandService(
-  'getMinikubeStatus',
-  'minikube',
-  ['status', '-o', 'json']
-);
+const spawCmd = new SpawnCommandService('spawCmd');

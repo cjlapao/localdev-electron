@@ -1,38 +1,60 @@
+import { DevelopmentTool, DevelopmentToolStatus } from './../entities/tool';
 import { MinikubeStatusMessage, MinikubeStatus } from './../entities/minikube';
 import { SpawnCommandResponse } from './../../../app/src/interfaces/SpawnCommandResponse';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
+import { BaseDevelopmentToolService } from './base-development-tool.service';
+import { SpawnCommandRequest } from '../../../app/src/interfaces/SpawnCommandRequest';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
-export class MinikubeService {
-  private _ipc: IpcRenderer | undefined;
+export class MinikubeService extends BaseDevelopmentToolService {
+  constructor(private client: HttpClient) {
+    super(client);
 
-  constructor() {
-    if (window.require) {
-      try {
-        this._ipc = window.require('electron').ipcRenderer;
-      } catch (e) {
-        throw e;
+    this.tool = {
+      name: 'minikube',
+    };
+  }
+
+  async init(): Promise<DevelopmentTool> {
+    return this.tool;
+  }
+
+  status(): Promise<DevelopmentToolStatus> {
+    return new Promise((r) => {
+      if (this.tool.installedVersion) {
+        this.tool.status = DevelopmentToolStatus.Installed;
       }
-    } else {
-      console.warn("Electron's IPC was not loaded");
-    }
+
+      r(this.tool.status);
+    });
   }
 
   getMinikubeStatus(): Promise<MinikubeStatus> {
     return new Promise((v) => {
-      this._ipc.send('getMinikubeStatus');
-      this._ipc.on('getMinikubeStatusResponse', (event, arg) => {
-        const response: SpawnCommandResponse = arg
-        response.output.forEach( out => {
-          let msg: MinikubeStatusMessage;
-          msg = JSON.parse(out);
-          if (msg.data.message.indexOf("not found.") > -1) {
-            v(MinikubeStatus.NotFound)
-          }
-        })
+      const cmd: SpawnCommandRequest = {
+        name: 'minikubeVersion',
+        cmd: 'minikube',
+        args: ['status', '-o', 'json'],
+      };
+
+      this.ipc.send('spawCmd', cmd);
+      this.ipc.on(`spawCmd_${cmd.name}_Response`, (event, arg) => {
+        const response: SpawnCommandResponse = arg;
+        if (response.output.length > 0) {
+          console.log(response.output[0]);
+          const lines = this.getCmdLines(response.output[0]);
+          lines.forEach((line) => {
+            let msg: MinikubeStatusMessage;
+            msg = JSON.parse(line);
+            if (msg.data.message.indexOf('not found.') > -1) {
+              v(MinikubeStatus.NotFound);
+            }
+          });
+        }
 
         v(MinikubeStatus.Unknown);
       });

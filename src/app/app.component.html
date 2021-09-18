@@ -1,10 +1,18 @@
 <button (click)="getMinikubeStatus()">Test</button> <label>{{ status }} </label>
-
-<div class="BottomBar flex">
-  <span
-    class="dot"
-    [class.green]="status === 'RUNNING'"
-    [class.red]="status !== 'RUNNING'"
-  ></span>
-  <a *ngIf="status === 'NOTFOUND'">Create</a> 
+<div class="status-bar flex">
+  <div
+    *ngFor="let tool of tools"
+    class="status-bar-item"
+    [title]="
+      tool.installedVersion ? 'Version ' + tool.installedVersion : tool.status
+    "
+  >
+    <span
+      class="dot"
+      [class.green]="tool.status === 'RUNNING' || tool.status === 'INSTALLED'"
+      [class.red]="status !== 'RUNNING' && tool.status !== 'INSTALLED'"
+    >
+    </span>
+    {{ tool.name }}
+  </div>
 </div>

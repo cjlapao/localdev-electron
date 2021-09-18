@@ -1,0 +1,13 @@
+.status-bar {
+  --flex-gap: 4px;
+  display: flex;
+  background-color: var(--blue);
+  padding: 0 2px;
+  height: var(--bottom-bar-height);
+}
+
+.status-bar-item {
+  display: flex;
+  align-items: center;
+  margin: 3px;
+}
