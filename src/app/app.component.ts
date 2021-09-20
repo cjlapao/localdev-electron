@@ -29,6 +29,13 @@ export class AppComponent {
     this.tools.push(minikubeTool);
   }
 
+  async test() {
+    let t = await this.minikube.test();
+    console.log(t);
+  }
+
+  async testParameters(): Promise<void> {}
+
   async getMinikubeStatus() {
     this.status = 'reading';
     this.status = (await this.minikube.getMinikubeStatus()).toString();

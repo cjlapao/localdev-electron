@@ -31,7 +31,12 @@
             "scripts": [],
             "customWebpackConfig": {
               "path": "./angular.webpack.js"
-            }
+            },
+            "allowedCommonJsDependencies": [
+              "electron",
+              "rxjs",
+              "rxjs/operators"
+            ]
           },
           "configurations": {
             "dev": {

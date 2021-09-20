@@ -1,3 +1,4 @@
+import { MinikubeService } from './services/minikubeService';
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import { SpawnCommandService } from './services/SpawnCommandService';
 import * as path from 'path';
@@ -99,3 +100,4 @@ app.on('window-all-closed', () => {
 
 //Register command Messages
 const spawCmd = new SpawnCommandService('spawCmd');
+const minikubeSvc = new MinikubeService();

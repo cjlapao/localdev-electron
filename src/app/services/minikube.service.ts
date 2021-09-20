@@ -1,8 +1,12 @@
+import {
+  MINIKUBE_CHANNEL_RETURN_NAME,
+  MINIKUBE_CHANNEL_NAME,
+  MINIKUBE_GETLATESTVERSION_CMD,
+} from './../../../app/src/constants/minikube';
 import { DevelopmentTool, DevelopmentToolStatus } from './../entities/tool';
 import { MinikubeStatusMessage, MinikubeStatus } from './../entities/minikube';
 import { SpawnCommandResponse } from './../../../app/src/interfaces/SpawnCommandResponse';
 import { Injectable } from '@angular/core';
-import { IpcRenderer } from 'electron';
 import { BaseDevelopmentToolService } from './base-development-tool.service';
 import { SpawnCommandRequest } from '../../../app/src/interfaces/SpawnCommandRequest';
 import { HttpClient } from '@angular/common/http';
@@ -30,6 +34,18 @@ export class MinikubeService extends BaseDevelopmentToolService {
       }
 
       r(this.tool.status);
+    });
+  }
+
+  test(): Promise<string> {
+    return new Promise((p) => {
+      console.log('test1');
+      this.ipc
+        .invoke(MINIKUBE_CHANNEL_NAME, MINIKUBE_GETLATESTVERSION_CMD)
+        .then((res) => {
+          console.log('finished');
+          p(res);
+        });
     });
   }
 

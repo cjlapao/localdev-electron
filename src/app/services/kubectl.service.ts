@@ -65,13 +65,6 @@ export class KubectlService extends BaseDevelopmentToolService {
     let options: object = {
       responseType: 'blob',
     };
-
-    return lastValueFrom(
-      this.httpClient.get(
-        'https://storage.googleapis.com/kubernetes-release/release/stable.txt',
-        options
-      )
-    );
   }
 
   async getLatestOnlineVersionTag(): Promise<string> {
