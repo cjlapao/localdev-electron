@@ -1,5 +1,5 @@
 export interface SpawnCommandResponse {
-  code: number;
-  output: string[];
-  error: string[];
+  code?: number;
+  output?: string[];
+  error?: string[];
 }

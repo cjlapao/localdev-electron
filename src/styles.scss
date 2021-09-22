@@ -3,6 +3,11 @@
 :root {
   --sash-size: 4px;
 }
+
+:root {
+  --sidebar-width: 200px;
+}
+
 :root {
   --unit: 8px;
   --padding: var(--unit);
@@ -18,6 +23,8 @@
   --font-weight-bold: 500;
   --main-layout-header: 40px;
   --drag-region-height: 22px;
+  --bottom-bar-height: 22px;
+  --flex-gap: 8px;
 }
 
 :root {
@@ -83,32 +90,55 @@ body {
 }
 
 body {
-  font-family: inherit;
-  line-height: inherit;
-}
-body {
   font-family: system-ui, -apple-system,
     /* Firefox supports this but not yet `system-ui` */ "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-}
-body {
   margin: 0;
+  color: var(--textColorPrimary);
 }
 
 .flex {
   display: flex;
   --flex-grid: 12;
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.gaps:not(.column):not(.reverse) > :not(:last-child) {
+    margin-right: var(--flex-gap, 1em);
+  }
+
+  .flex > .box.grow {
+    flex: 1 0;
+  }
+
+  &.full-height {
+    height: 100%;
+    width: 100%;
+  }
 }
 
-.ClusterManager {
-  --bottom-bar-height: 22px;
-  display: grid;
-  grid-template-areas:
-    "menu topbar"
-    "menu main"
-    "bottom-bar bottom-bar";
-  grid-template-rows: auto 1fr min-content;
-  grid-template-columns: min-content 1fr;
+.flex-col {
+  flex-direction: column;
+}
+
+.alert-danger {
+  color: red;
+  background: blue;
+}
+
+*:target {
+  color: var(--textColorAccent);
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
 }
 
 .dot {
@@ -127,5 +157,34 @@ body {
   }
 }
 
+.icon {
+  --size: 21px;
+  --small-size: 18px;
+  --smallest-size: 16px;
+  --big-size: 32px;
+  --color-active: var(--iconActiveColor);
+  --bgc-active: var(--iconActiveBackground);
+  --focus-color: var(--icon-focus-color, var(--blue));
+  display: inline-flex;
+  flex-shrink: 0;
+  font-style: normal;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  user-select: none;
+  box-sizing: content-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  font-size: var(--size);
+  width: var(--size);
+  height: var(--size);
+
+  &.svg {
+    box-sizing: content-box;
+  }
+}
+
 @import url(./assets/styles/hotbar.scss);
 @import url(./assets/styles/statusbar.scss);
+@import url(./assets/styles/loader.scss);

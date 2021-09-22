@@ -1,0 +1,52 @@
+<div class="flex flex-col full-height">
+  <div class="sidebar-header">
+    <div class="sidebar-item" data-id="_home">
+      <a
+        routerLink="/home"
+        routerLinkActive="active"
+        class="nav-item flex gaps align-center"
+      >
+        <i class="icon svg focusable">
+          <fa-icon [icon]="faHome"></fa-icon>
+        </i>
+        <span class="link-text box grow">Home</span>
+      </a>
+    </div>
+  </div>
+  <div class="sidebar-nav">
+    <div
+      class="sidebar-item"
+      *ngFor="let item of menuItems"
+      [attr.data-id]="item.id"
+    >
+      <a
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        class="nav-item flex gaps align-center"
+      >
+        <i class="icon svg focusable">
+          <fa-icon [icon]="item.icon"></fa-icon>
+        </i>
+        <span class="link-text box grow">{{ item.name }}</span>
+      </a>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div
+      class="sidebar-item"
+      *ngFor="let item of footerItems"
+      [attr.data-id]="item.id"
+    >
+      <a
+        class="nav-item flex gaps align-center"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+      >
+        <i class="icon svg focusable">
+          <fa-icon [icon]="item.icon"></fa-icon>
+        </i>
+        <span class="link-text box grow">{{ item.name }}</span>
+      </a>
+    </div>
+  </div>
+</div>

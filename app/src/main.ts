@@ -4,6 +4,8 @@ import { SpawnCommandService } from './services/SpawnCommandService';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as url from 'url';
+import { SettingsService } from './services/settings';
+import { SystemService } from './services/system';
 
 // Initialize remote module
 require('electron').remote;
@@ -12,7 +14,7 @@ let mainWindow: BrowserWindow = null;
 const args = process.argv.slice(1),
   serve = args.some((val) => val === '--serve');
 
-console.log(serve);
+const system = SystemService.init();
 
 function createWindow() {
   const electronScreen = screen;
@@ -101,3 +103,4 @@ app.on('window-all-closed', () => {
 //Register command Messages
 const spawCmd = new SpawnCommandService('spawCmd');
 const minikubeSvc = new MinikubeService();
+const settings = new SettingsService();

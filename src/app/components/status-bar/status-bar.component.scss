@@ -1,0 +1,126 @@
+.status-bar {
+  color: white;
+  --flex-gap: 4px;
+  display: flex;
+  background-color: var(--blue);
+  padding: 0 2px;
+  height: var(--bottom-bar-height);
+  flex-direction: row;
+}
+
+.status-bar-item-fill {
+  flex: auto;
+  flex-grow: 1;
+}
+
+.status-bar-item {
+  display: flex;
+  align-items: center;
+  margin: 3px;
+  min-width: 100px;
+  border-left: 1px solid white;
+}
+
+.status-bar-item-icon {
+  width: 14px;
+  height: 14px;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.status-bar-item-text {
+  display: flex;
+  flex-grow: 1;
+  flex: auto;
+  align-items: center;
+  cursor: default;
+  user-select: none;
+}
+
+.status-bar-item-dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+
+  &.green {
+    background-color: #009933;
+  }
+
+  &.red {
+    background-color: #cc3300;
+  }
+}
+
+.status-bar-item-lds-ellipsis {
+  display: flex;
+  flex: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-items: center;
+  flex-direction: column;
+}
+
+.status-lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+.status-lds-ellipsis div {
+  position: absolute;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.status-lds-ellipsis div:nth-child(1) {
+  left: 2px;
+  animation: status-lds-ellipsis1 0.6s infinite;
+}
+
+.status-lds-ellipsis div:nth-child(2) {
+  left: 2px;
+  animation: status-lds-ellipsis2 0.6s infinite;
+}
+
+.status-lds-ellipsis div:nth-child(3) {
+  left: 10px;
+  animation: status-lds-ellipsis2 0.6s infinite;
+}
+
+.status-lds-ellipsis div:nth-child(4) {
+  left: 18px;
+  animation: status-lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes status-lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes status-lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes status-lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(8px, 0);
+  }
+}

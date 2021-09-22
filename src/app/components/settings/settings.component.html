@@ -1,0 +1,21 @@
+<p>
+  {{ settings?.cluster?.cpusNumber }}
+</p>
+<form [formGroup]="settingsForm" (ngSubmit)="upsertSettings()">
+  <div>
+    <p>
+      <label>Cpus</label>
+      <input type="text" formControlName="cpus" required />
+    </p>
+    <div
+      *ngIf="s.cpus.invalid && (s.cpus.dirty || s.cpus.touched)"
+      class="alert-danger"
+    >
+      Error
+    </div>
+  </div>
+
+  <p>
+    <button type="submit">Save</button>
+  </p>
+</form>

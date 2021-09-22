@@ -1,8 +1,10 @@
-import { DevelopmentToolStatus } from './../entities/tool';
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { HttpClient } from '@angular/common/http';
-import { DevelopmentTool } from '../entities/tool';
+import {
+  DevelopmentTool,
+  DevelopmentToolStatus,
+} from '../../../app/src/interfaces/development-tool';
 
 @Injectable({
   providedIn: 'root',

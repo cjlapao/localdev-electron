@@ -1,10 +1,68 @@
-.BottomBar {
-  --flex-gap: 4px;
-  background-color: var(--blue);
-  padding: 0 2px;
-  height: var(--bottom-bar-height);
+.app {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  height: 100vh;
+  width: 100%;
 }
 
-.BottomBar {
-  grid-area: bottom-bar;
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  background-color: var(--mainBackground);
+}
+
+.container-body {
+  width: calc(100% - var(--sidebar-width));
+  grid-area: sidebar;
+  display: flex;
+  position: relative;
+  background: var(--sidebarBackground);
+  padding: 3px;
+}
+
+.container-row {
+  display: inline-flex;
+  height: calc(100% - var(--bottom-bar-height));
+
+  > div {
+    margin: 2px;
+  }
+}
+
+.container-side-menu {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  width: var(--sidebar-width);
+  background: linear-gradient(
+      var(--sidebarBackground) 30%,
+      rgba(255, 255, 255, 0)
+    ),
+    linear-gradient(rgba(255, 255, 255, 0), var(--sidebarBackground) 70%) 0 100%,
+    radial-gradient(
+      farthest-side at 50% 0,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0)
+    ),
+    radial-gradient(
+        farthest-side at 50% 100%,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0)
+      )
+      0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 40px, 100% 40px, 100% 12px, 100% 12px;
+  background-attachment: local, local, scroll, scroll;
+
+  grid-area: sidebar;
+  display: flex;
+  position: relative;
+  background: var(--sidebarBackground);
+}
+
+.container-status-bar {
+  height: var(--bottom-bar-height);
 }

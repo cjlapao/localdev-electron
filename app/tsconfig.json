@@ -19,7 +19,8 @@
   },
   "include": [
     "src/**/*",
-    "dist/**/*"
+    "dist/**/*",
+    "assets/**/*"
   ],
   "exclude": [
     "node_modules",

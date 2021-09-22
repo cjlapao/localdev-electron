@@ -1,0 +1,33 @@
+<div class="status-bar flex">
+  <div class="status-bar-item-fill"></div>
+  <div *ngFor="let tool of tools" class="status-bar-item">
+    <div class="status-bar-item-lds-ellipsis" *ngIf="!tool.initiated">
+      <div class="status-lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div *ngIf="tool.initiated" class="status-bar-item-icon">
+      <span
+        class="status-bar-item-dot"
+        [class.green]="tool.status === 'RUNNING' || tool.status === 'INSTALLED'"
+        [class.red]="tool.status !== 'RUNNING' && tool.status !== 'INSTALLED'"
+        [title]="tool.status"
+      >
+      </span>
+    </div>
+    <div *ngIf="tool.initiated" class="status-bar-item-text">
+      <span
+        [title]="
+          tool.localVersion.version
+            ? 'Version ' + tool.localVersion.version
+            : 'Unknown'
+        "
+      >
+        {{ tool.name }}
+      </span>
+    </div>
+  </div>
+</div>
