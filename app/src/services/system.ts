@@ -8,13 +8,15 @@ export abstract class SystemService {
   }
 
   static getSystemFolder(): string {
+    let root: string;
     switch (process.platform) {
       case 'win32':
-        const root = process.env.USERPROFILE;
+        root = process.env.USERPROFILE;
         console.log(root);
         return `${root}/.localclusterctl`;
       case 'linux':
-        return '~/.localclusterctl';
+        root = process.env.HOME;
+        return `${root}/.localclusterctl`;
       default:
         return;
     }

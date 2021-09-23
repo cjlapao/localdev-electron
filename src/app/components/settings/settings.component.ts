@@ -161,35 +161,56 @@ export class SettingsComponent implements OnInit, OnChanges {
       this.settings.cluster.memorySize = (
         this.settingsForm.value.cluster.memorySize * 1024
       ).toString();
-      this.globalValues.value.forEach((v) => {
-        let exists = this.settings.globalValues.find((f) => f.name === v.key);
-        if (exists) {
-          exists.value = v.value;
-        } else {
-          this.settings.globalValues.push({ name: v.key, value: v.value });
-        }
-      });
-      this.globalValues.value.forEach((v) => {
-        let exists = this.settings.globalValues.find((f) => f.name === v.key);
-        if (exists) {
-          exists.value = v.value;
-        } else {
-          this.settings.globalValues.push({ name: v.key, value: v.value });
-        }
-      });
-      // check for the deleted ones
-      this.settings.globalValues.forEach((v, vIdx) => {
-        let idx = this.globalValues.value.findIndex((f) => f.key === v.name);
-        console.log(`${v.name}: ${idx}`);
-        if (idx == -1) {
-          this.settings.globalValues.splice(vIdx, 1);
-        }
-      });
+
+      this.fromFormToGlobalValues();
+      this.fromFormToNamespaces();
 
       await this.settingsSvc.upsert(this.settings);
       this.settingsForm.markAsPristine();
       this.settingsForm.markAsUntouched();
       console.log(this.settings);
     }
+  }
+
+  private fromFormToGlobalValues(): void {
+    this.globalValues.value.forEach((v) => {
+      let exists = this.settings.globalValues.find((f) => f.name === v.key);
+      if (exists) {
+        exists.value = v.value;
+      } else {
+        this.settings.globalValues.push({ name: v.key, value: v.value });
+      }
+    });
+    // check for the deleted ones
+    this.settings.globalValues.forEach((v, vIdx) => {
+      let idx = this.globalValues.value.findIndex((f) => f.key === v.name);
+      console.log(`${v.name}: ${idx}`);
+      if (idx == -1) {
+        this.settings.globalValues.splice(vIdx, 1);
+      }
+    });
+  }
+
+  private fromFormToNamespaces(): void {
+    this.namespaces.value.forEach((v) => {
+      let exists = this.settings.namespaces.find((f) => f.name === v.name);
+      if (exists) {
+        exists.name = v.name;
+        exists.injectSidecar = v.injectSidecar;
+      } else {
+        this.settings.namespaces.push({
+          name: v.name,
+          injectSidecar: v.injectSidecar,
+        });
+      }
+    });
+    // check for the deleted ones                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    this.settings.namespaces.forEach((v, vIdx) => {
+      let idx = this.namespaces.value.findIndex((f) => f.name === v.name);
+      console.log(`${v.name}: ${idx}`);
+      if (idx == -1) {
+        this.settings.namespaces.splice(vIdx, 1);
+      }
+    });                                                                                     
   }
 }

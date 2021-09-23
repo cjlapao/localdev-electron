@@ -199,7 +199,9 @@
       mat-raised-button
       color="accent"
       type="submit"
-      [disabled]="!settingsForm.touched && !settingsForm.dirty"
+      [disabled]="
+        (!settingsForm.touched && !settingsForm.dirty) || !settingsForm.valid
+      "
     >
       Save
     </button>
