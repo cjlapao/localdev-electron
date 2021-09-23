@@ -1,0 +1,29 @@
+.tool-card {
+  min-width: 200px;
+  min-height: 200px;
+
+  &.green {
+    background: green;
+  }
+
+  .mat-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+  }
+
+  .mat-card-actions {
+    justify-content: flex-end;
+    display: flex;
+  }
+}
+
+button {
+  margin: 3px;
+}

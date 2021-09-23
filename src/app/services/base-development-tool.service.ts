@@ -12,8 +12,10 @@ import {
 export abstract class BaseDevelopmentToolService {
   public ipc: IpcRenderer | undefined;
   public tool: DevelopmentTool;
+  public isInitiated: boolean;
 
   constructor(public httpClient: HttpClient) {
+    this.isInitiated = false;
     if (window.require) {
       try {
         this.ipc = window.require('electron').ipcRenderer;

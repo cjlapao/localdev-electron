@@ -1,6 +1,6 @@
 <div class="status-bar flex">
   <div class="status-bar-item-fill"></div>
-  <div *ngFor="let tool of tools" class="status-bar-item">
+  <div *ngFor="let tool of toolsSvc.tools" class="status-bar-item">
     <div class="status-bar-item-lds-ellipsis" *ngIf="!tool.initiated">
       <div class="status-lds-ellipsis">
         <div></div>

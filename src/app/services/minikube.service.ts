@@ -46,6 +46,7 @@ export class MinikubeService extends BaseDevelopmentToolService {
 
     await this.status();
     this.tool.initiated = true;
+    this.isInitiated = true;
     return this.tool;
   }
 

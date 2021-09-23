@@ -49,17 +49,12 @@ function createWindow() {
   } else {
     // Path when running electron executable
     let pathIndex = './index.html';
-    console.log(pathIndex);
 
     if (fs.existsSync(path.join(__dirname, '../../dist/index.html'))) {
       // Path when running electron in local folder
       pathIndex = '../../dist/index.html';
-      console.log('here1');
-      console.log(pathIndex);
     }
 
-    console.log(__dirname);
-    console.log(`file://${path.join(__dirname, pathIndex)}`);
     var filePath = path.join(__dirname, pathIndex);
     if (filePath.startsWith('/')) {
       filePath = filePath.substr(1);

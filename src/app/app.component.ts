@@ -12,5 +12,5 @@ import { BaseDevelopmentToolService } from './services/base-development-tool.ser
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'electron-angular-helloworld';
+  title = 'Local Development Lens';
 }
