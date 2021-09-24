@@ -19,6 +19,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     StatusBarComponent,
     SettingsComponent,
     HomeComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatButtonModule,
     MatGridListModule,
     MatCheckboxModule,
+    MatAutocompleteModule,
   ],
   providers: [],
   exports: [],

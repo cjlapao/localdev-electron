@@ -107,7 +107,7 @@ export class SettingsService {
   upsertSettings(settings: Settings): boolean {
     if (settings && settings.cluster) {
       try {
-        const content = JSON.stringify(settings);
+        const content = JSON.stringify(settings, null, 2);
         writeFileSync(this.getSettingsPath(), content);
         return true;
       } catch (error) {

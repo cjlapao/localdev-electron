@@ -1,3 +1,5 @@
+import { DefaultAddon } from './../../entities/addons';
+import { map, Observable, retry, startWith } from 'rxjs';
 import {
   Settings,
   GlobalValue,
@@ -16,33 +18,32 @@ import {
   FormGroup,
   FormControl,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import { faCog, faTrashAlt } from '@fortawesome/pro-light-svg-icons';
+import { AddonsService } from '../../services/addons.service';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
-export class SettingsComponent implements OnInit, OnChanges {
+export class SettingsComponent implements OnInit {
   public settings: Settings;
   public settingsForm: FormGroup;
   panelOpenState = false;
   facog = faCog;
   faTrashAlt = faTrashAlt;
+  isReady = false;
+
+  filteredAddons: Observable<string[]>[];
+
   constructor(
     private settingsSvc: SettingsService,
     public fb: FormBuilder,
-    private applicationRef: ApplicationRef
+    private applicationRef: ApplicationRef,
+    private addonsSvc: AddonsService
   ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
-  get s() {
-    return this.settingsForm.controls;
-  }
 
   formatClusterMemory(value: number) {
     return `${value}Gb`;
@@ -51,7 +52,17 @@ export class SettingsComponent implements OnInit, OnChanges {
   formatClusterDisk(value: number) {
     return `${value}Gb`;
   }
+
+  testError() {
+    this.namespaces.controls.forEach((c) => {
+      let name = c.get('name');
+      console.log(name);
+      console.log(name.errors);
+    });
+  }
+
   async ngOnInit() {
+    this.filteredAddons = [];
     this.settings = await this.settingsSvc.get();
     this.settingsForm = this.fb.group({
       system: new FormGroup({
@@ -94,9 +105,13 @@ export class SettingsComponent implements OnInit, OnChanges {
       }),
       globalValues: this.fb.array([]),
       namespaces: this.fb.array([]),
+      defaultAddons: this.fb.array([]),
     });
 
     this.convertGlobalValuesToFormArray();
+    this.convertNamespacesToFormArray();
+    this.convertDefaultAddonsToFormArray();
+    this.isReady = true;
   }
 
   get globalValues(): FormArray {
@@ -127,11 +142,21 @@ export class SettingsComponent implements OnInit, OnChanges {
     this.globalValues.removeAt(index);
     this.globalValues.markAllAsTouched();
     this.settingsForm.markAsTouched();
-    console.log(this.settingsForm);
   }
 
   get namespaces(): FormArray {
     return this.settingsForm.get('namespaces') as FormArray;
+  }
+
+  convertNamespacesToFormArray() {
+    let namespaces = this.namespaces;
+    this.settings.namespaces.forEach((v) => {
+      const control = this.fb.group({
+        name: new FormControl(v.name),
+        injectSidecar: new FormControl(v.injectSidecar),
+      });
+      namespaces.push(control);
+    });
   }
 
   addNamespace() {
@@ -150,8 +175,98 @@ export class SettingsComponent implements OnInit, OnChanges {
     this.namespaces.markAllAsTouched();
     this.settingsForm.markAsTouched();
     this.applicationRef.tick();
-    console.log(this.settingsForm);
   }
+
+  //#region Default Addons
+  get defaultAddons(): FormArray {
+    return this.settingsForm.get('defaultAddons') as FormArray;
+  }
+
+  get availableAddons(): string[] {
+    const selectedAddons = this.defaultAddons.value as string[];
+    return this.addonsSvc.defaultAddons
+      .filter((f) => {
+        const idx = selectedAddons.findIndex((i) => i === f.name);
+        return idx < 0;
+      })
+      .map((m) => m.name);
+  }
+
+  convertDefaultAddonsToFormArray() {
+    const defaultAddons = this.defaultAddons;
+    const availableAddons = this.addonsSvc.defaultAddons;
+    this.settings.defaultAddons.forEach((v) => {
+      const addon = availableAddons.find((f) => f.id === v);
+      if (addon) {
+        const control = new FormControl(addon.name);
+        this.filteredAddons.push(
+          control.valueChanges.pipe(
+            startWith(''),
+            map((value) => this._filterAddons(value))
+          )
+        );
+        defaultAddons.push(control);
+      }
+    });
+  }
+
+  addDefaultAddon() {
+    const control = new FormControl('', [Validators.required]);
+    this.filteredAddons.push(
+      control.valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filterAddons(value))
+      )
+    );
+    this.defaultAddons.push(control);
+  }
+
+  removeDefaultAddon(index: any) {
+    this.defaultAddons.removeAt(index);
+    this.filteredAddons.splice(index, 1);
+    this.defaultAddons.markAllAsTouched();
+    this.settingsForm.markAsTouched();
+    this.applicationRef.tick();
+  }
+
+  private _convertFormArrayToDefaultAddons(): void {
+    console.log(this.addonsSvc.defaultAddons);
+    this.defaultAddons.value.forEach((v) => {
+      const addon = this.addonsSvc.defaultAddons.find(
+        (a) => a.name.toLowerCase() == v.toLowerCase()
+      );
+      let exists = this.settings.defaultAddons.find((f) => f === addon.id);
+      if (!exists) {
+        console.log(addon);
+        if (addon) {
+          console.log(`found addon ${addon}`);
+          this.settings.defaultAddons.push(addon.id);
+        }
+      }
+    });
+
+    // check for the deleted ones
+    this.settings.defaultAddons.forEach((v, vIdx) => {
+      const addon = this.addonsSvc.defaultAddons.find(
+        (addon) => addon.id === v
+      );
+      let idx = this.defaultAddons.value.findIndex(
+        (f) => f.toLowerCase() === addon.name.toLowerCase()
+      );
+      if (idx == -1) {
+        this.settings.defaultAddons.splice(vIdx, 1);
+      }
+    });
+  }
+
+  private _filterAddons(value: string): string[] {
+    const filteredValue = value.toLowerCase();
+    const result = this.availableAddons.filter((addon) =>
+      addon.toLowerCase().startsWith(filteredValue)
+    );
+    return result;
+  }
+  //#endregion
 
   async upsertSettings() {
     console.log(this.settingsForm);
@@ -162,8 +277,9 @@ export class SettingsComponent implements OnInit, OnChanges {
         this.settingsForm.value.cluster.memorySize * 1024
       ).toString();
 
-      this.fromFormToGlobalValues();
-      this.fromFormToNamespaces();
+      this._convertFormArrayToGlobalValues();
+      this._convertFormArrayToNamespaces();
+      this._convertFormArrayToDefaultAddons();
 
       await this.settingsSvc.upsert(this.settings);
       this.settingsForm.markAsPristine();
@@ -172,7 +288,7 @@ export class SettingsComponent implements OnInit, OnChanges {
     }
   }
 
-  private fromFormToGlobalValues(): void {
+  private _convertFormArrayToGlobalValues(): void {
     this.globalValues.value.forEach((v) => {
       let exists = this.settings.globalValues.find((f) => f.name === v.key);
       if (exists) {
@@ -184,14 +300,13 @@ export class SettingsComponent implements OnInit, OnChanges {
     // check for the deleted ones
     this.settings.globalValues.forEach((v, vIdx) => {
       let idx = this.globalValues.value.findIndex((f) => f.key === v.name);
-      console.log(`${v.name}: ${idx}`);
       if (idx == -1) {
         this.settings.globalValues.splice(vIdx, 1);
       }
     });
   }
 
-  private fromFormToNamespaces(): void {
+  private _convertFormArrayToNamespaces(): void {
     this.namespaces.value.forEach((v) => {
       let exists = this.settings.namespaces.find((f) => f.name === v.name);
       if (exists) {
@@ -204,13 +319,12 @@ export class SettingsComponent implements OnInit, OnChanges {
         });
       }
     });
-    // check for the deleted ones                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    // check for the deleted ones
     this.settings.namespaces.forEach((v, vIdx) => {
       let idx = this.namespaces.value.findIndex((f) => f.name === v.name);
-      console.log(`${v.name}: ${idx}`);
       if (idx == -1) {
         this.settings.namespaces.splice(vIdx, 1);
       }
-    });                                                                                     
+    });
   }
 }

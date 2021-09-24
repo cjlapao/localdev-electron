@@ -4,19 +4,15 @@
   </i>
   Local Development Settings
 </div>
-<form [formGroup]="settingsForm" (ngSubmit)="upsertSettings()">
+<app-loader *ngIf="!isReady"></app-loader>
+<form [formGroup]="settingsForm" (ngSubmit)="upsertSettings()" *ngIf="isReady">
   <div class="action-form">
     <mat-accordion class="full-width">
-      <mat-expansion-panel
-        formGroupName="system"
-        novalidate
-        [expanded]="true"
-        class="system"
-      >
+      <mat-expansion-panel [expanded]="true" class="system">
         <mat-expansion-panel-header>
           <mat-panel-title>System</mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="field-wrapper">
+        <div class="field-wrapper" formGroupName="system" novalidate>
           <mat-form-field>
             <mat-label>Keep Last Backups</mat-label>
             <input matInput formControlName="keepLastBackups" required />
@@ -164,6 +160,19 @@
                 <mat-form-field>
                   <mat-label>Namespace</mat-label>
                   <input matInput type="text" formControlName="name" />
+                  <mat-error
+                    *ngIf="
+                      namespaces.controls[i].get('name').hasError('required')
+                    "
+                    >You need to type a name for the namespace</mat-error
+                  >
+                  <mat-error
+                    *ngIf="
+                      namespaces.controls[i].get('name').hasError('pattern')
+                    "
+                    >The namespace is invalid, needs to be FQDN
+                    compatible</mat-error
+                  >
                 </mat-form-field>
                 <mat-checkbox formControlName="injectSidecar"
                   >Inject Sidecar</mat-checkbox
@@ -192,6 +201,56 @@
           </div>
         </div>
       </mat-expansion-panel>
+      <mat-expansion-panel class="default-addons">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Default Addons</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="default-addons-wrapper">
+          <div class="default-addons-content" formArrayName="defaultAddons">
+            <div
+              *ngFor="let defaultAddon of defaultAddons.controls; let i = index"
+              class="default-addons-item"
+            >
+              <mat-form-field>
+                <mat-label>Addon</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  [formControlName]="i"
+                  [matAutocomplete]="auto"
+                />
+              </mat-form-field>
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option
+                  *ngFor="let addon of filteredAddons[i] | async"
+                  [value]="addon"
+                >
+                  {{ addon }}
+                </mat-option>
+              </mat-autocomplete>
+              <button
+                type="button"
+                mat-icon-button
+                (click)="removeDefaultAddon(i)"
+              >
+                <i class="icon svg focusable">
+                  <fa-icon [icon]="faTrashAlt"></fa-icon>
+                </i>
+              </button>
+            </div>
+          </div>
+          <div class="default-addons-actions">
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="addDefaultAddon()"
+              type="button"
+            >
+              Add Default Addon
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
     </mat-accordion>
   </div>
   <div class="action-flow">
@@ -205,5 +264,6 @@
     >
       Save
     </button>
+    <button mat-raised-button type="button" (click)="testError()">Test</button>
   </div>
 </form>
