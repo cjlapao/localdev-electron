@@ -1,0 +1,10 @@
+<div class="full-width settings-header">
+  <i class="icon svg focusable">
+    <fa-icon [icon]="faCog"></fa-icon>
+  </i>
+  Local Development Settings
+</div>
+<app-loader *ngIf="!isReady"></app-loader>
+<form [formGroup]="settingsForm" (ngSubmit)="upsertSettings()" *ngIf="isReady">
+  <div class="action-form"></div>
+</form>

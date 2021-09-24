@@ -50,7 +50,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     MatAutocompleteModule,
   ],
   providers: [],
-  exports: [],
+  exports: [LoaderComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -5,9 +5,16 @@ import { RouterModule, Routes } from '@angular/router';
 // import { MinikubeService } from './services/minikube.service';
 
 const routes: Routes = [
+  // {
+  //   path: 'settings',
+  //   component: SettingsComponent,
+  // },
   {
     path: 'settings',
-    component: SettingsComponent,
+    loadChildren: () =>
+      import('./modules/settings/settings.module').then(
+        (m) => m.SettingsModule
+      ),
   },
   {
     path: '**',

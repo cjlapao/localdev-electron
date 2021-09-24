@@ -27,9 +27,5 @@
     "!Select sequence",
     "!Split",
     "!Split sequence"
-  ],
-  "eslint.workingDirectories": [
-    "./src"
-  ],
-  "eslint.enable": false
+  ]
 }
