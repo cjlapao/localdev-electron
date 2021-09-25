@@ -12,21 +12,10 @@ import {
   faBracketsCurly,
 } from '@fortawesome/pro-light-svg-icons';
 import { SideMenuItem } from '../../entities/side-menu-item';
-
-export type CustomIconPrefix = IconPrefix | 'fac';
-export type CustomIconName = IconName & 'test';
-
-export const faIvanti: IconDefinition = {
-  prefix: 'fac',
-  iconName: 'ivanti',
-  icon: [
-    652,
-    652,
-    [],
-    null,
-    'M 46.272968,381.6188 H 273.89455 V 609.24039 H 46.272968 Z M 387.70509,266.82686 V 608.25922 H 614.34553 V 40.18641 H 46.272729 v 226.64045 z',
-  ],
-} as any;
+import {
+  facIvanti,
+  facKubernetes,
+} from '../../modules/shared/custom-icons/custom-icons';
 
 const MENU_ITEMS: SideMenuItem[] = [
   {
@@ -37,7 +26,14 @@ const MENU_ITEMS: SideMenuItem[] = [
     items: [],
   },
   {
-    icon: faIvanti,
+    icon: facKubernetes,
+    name: 'Minikube',
+    route: '/cluster/minikube',
+    id: '_minikube',
+    items: [],
+  },
+  {
+    icon: facIvanti,
     name: 'Neurons Services',
     route: '/neurons-services',
     id: '_coffee',

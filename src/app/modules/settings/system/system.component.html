@@ -1,1 +1,17 @@
-<p>system works!</p>
+<mat-expansion-panel [expanded]="true" class="system" [formGroup]="system" novalidate>
+  <mat-expansion-panel-header>
+    <mat-panel-title>System</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="field-wrapper">
+    <mat-form-field>
+      <mat-label>Keep Last Backups</mat-label>
+      <input matInput formControlName="keepLastBackups" required />
+      <mat-hint>How many backups of the settings you want to keep</mat-hint>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Retries Policy</mat-label>
+      <input matInput formControlName="retry" />
+      <mat-hint>How many retries you want the tools operations</mat-hint>
+    </mat-form-field>
+  </div>
+</mat-expansion-panel>

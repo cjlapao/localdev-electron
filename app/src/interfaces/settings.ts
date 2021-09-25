@@ -7,7 +7,7 @@ export interface Settings {
   namespaces: Namespace[];
   defaultAddons: string[];
   defaultExtras: string[];
-  azure: AzureElement[];
+  azure: AzureServicePrincipal[];
   docker: SettingsDocker;
   neurons: Neurons;
   localComponents: LocalComponent[];
@@ -15,13 +15,13 @@ export interface Settings {
   istio: IstioSettings;
 }
 
-export interface AzureElement {
-  applicationId: string;
+export interface AzureServicePrincipal {
+  tenantId: string;
+  subscriptionId: string;
   subscriptionName: string;
+  applicationId: string;
   applicationName: string;
   applicationPassword: string;
-  subscriptionId: string;
-  tenantId: string;
 }
 
 export interface Cluster {

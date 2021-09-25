@@ -1,0 +1,63 @@
+.azure-sp {
+  .azure-sp-item {
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 10px;
+    border-radius: 4px;
+
+    .field-wrapper {
+      display: grid;
+      flex-grow: 1;
+
+      .mat-form-field {
+        margin-bottom: 10px;
+        margin-top: 5px;
+        margin-left: 5px;
+        margin-right: 5px;
+        flex: 0 0 auto;
+      }
+    }
+
+    .button-wrapper {
+      width: 40px;
+    }
+  }
+
+  .azure-sp-header {
+    display: flex;
+    div {
+      padding-left: 5px;
+      padding-bottom: 2px;
+      width: 20%;
+    }
+
+    div + div {
+      width: 75%;
+      margin-left: 8px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .azure-sp-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button + button {
+      margin-left: 5px;
+    }
+  }
+}
+
+@media only screen and (min-width: 601px) {
+  .field-wrapper {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .field-wrapper {
+    grid-template-columns: 1fr;
+  }
+}

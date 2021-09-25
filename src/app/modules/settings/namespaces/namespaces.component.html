@@ -1,0 +1,30 @@
+<mat-expansion-panel class="namespaces" [formGroup]="settingsForm">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Namespaces</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="namespaces-wrapper">
+    <div class="namespaces-content" formArrayName="namespaces">
+      <div *ngFor="let namespace of namespaces.controls; let i = index">
+        <div [formGroupName]="i" class="namespaces-item">
+          <mat-form-field>
+            <mat-label>Namespace</mat-label>
+            <input matInput type="text" formControlName="name" />
+            <mat-error *ngIf="namespaces.controls[i].get('name').hasError('required')">You need to type a name for the namespace</mat-error>
+            <mat-error *ngIf="namespaces.controls[i].get('name').hasError('pattern')"
+              >The namespace is invalid, needs to be FQDN compatible</mat-error
+            >
+          </mat-form-field>
+          <mat-checkbox formControlName="injectSidecar">Inject Sidecar</mat-checkbox>
+          <button type="button" mat-icon-button (click)="removeNamespace(i)">
+            <i class="icon svg focusable">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="namespaces-actions">
+      <button mat-raised-button color="accent" (click)="addNamespace()" type="button">Add Namespace</button>
+    </div>
+  </div>
+</mat-expansion-panel>

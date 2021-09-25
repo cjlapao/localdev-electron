@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoaderComponent } from './loader.component';
+import { DefaultAddonsComponent } from './default-addons.component';
 
-describe('LoaderComponent', () => {
-  let component: LoaderComponent;
-  let fixture: ComponentFixture<LoaderComponent>;
+describe('DefaultAddonsComponent', () => {
+  let component: DefaultAddonsComponent;
+  let fixture: ComponentFixture<DefaultAddonsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoaderComponent ]
+      declarations: [ DefaultAddonsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoaderComponent);
+    fixture = TestBed.createComponent(DefaultAddonsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

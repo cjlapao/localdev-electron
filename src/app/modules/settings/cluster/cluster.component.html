@@ -1,0 +1,57 @@
+<mat-expansion-panel class="cluster" [formGroup]="cluster" novalidate>
+  <mat-expansion-panel-header>
+    <mat-panel-title>Cluster</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="cluster-wrapper">
+    <div class="slider-form-field">
+      <label class="mat-form-field-label">Cpu's</label>
+      <mat-slider #cpus [max]="8" [min]="2" [thumbLabel]="true" class="full-with" formControlName="cpusNumber"></mat-slider>
+      <mat-hint>Number of CPUs used in the minukube cluster</mat-hint>
+    </div>
+    <div class="slider-form-field">
+      <label class="mat-form-field-label">Memory Size</label>
+      <mat-slider
+        #memory
+        [max]="16"
+        [min]="2"
+        step="1"
+        [thumbLabel]="true"
+        class="full-with"
+        formControlName="memorySize"
+        [displayWith]="formatClusterMemory"
+      ></mat-slider>
+      <mat-hint>Total memory size in gigabytes assigned to the minikube cluster</mat-hint>
+    </div>
+    <div class="slider-form-field">
+      <label class="mat-form-field-label">Disk Size</label>
+      <mat-slider
+        #memory
+        [max]="120"
+        [min]="20"
+        step="5"
+        [thumbLabel]="true"
+        class="full-with"
+        formControlName="diskSize"
+        [displayWith]="formatClusterDisk"
+      ></mat-slider>
+      <mat-hint>Total disk size in gigabytes assigned to the minikube cluster</mat-hint>
+    </div>
+    <mat-form-field class="full-width">
+      <mat-label>Default Namespace</mat-label>
+      <input matInput formControlName="defaultNamespace" required />
+      <mat-hint>This will be used to deploy the services if no namespace is defined</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Network Card</mat-label>
+      <input matInput formControlName="ethernetName" required />
+      <mat-hint>Name of the network card to use</mat-hint>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Virtual Switch</mat-label>
+      <input matInput formControlName="vSwitchName" required />
+      <mat-hint>Name of the virtual switch to use</mat-hint>
+    </mat-form-field>
+    <mat-checkbox formControlName="startTunnelAutomatically">Start Tunnel Automatically</mat-checkbox>
+    <mat-checkbox formControlName="createExternalSwitch">Create Virtual Switch</mat-checkbox>
+  </div>
+</mat-expansion-panel>

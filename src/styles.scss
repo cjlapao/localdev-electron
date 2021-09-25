@@ -128,6 +128,39 @@ body {
   background: blue;
 }
 
+form {
+  .slider-form-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    font-weight: 400;
+    line-height: 1.125;
+    font-family: Roboto, Helvetica Neue, sans-serif;
+    letter-spacing: normal;
+    text-align: left;
+    margin-bottom: 5px;
+
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 10px;
+    border-radius: 4px;
+
+    .mat-hint {
+      font-size: 85%;
+    }
+
+    .mat-form-field-label {
+      font: inherit;
+      pointer-events: none;
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      transform-origin: 0 0;
+      font-size: 0.9em;
+    }
+  }
+}
+
 *:target {
   color: var(--textColorAccent);
 }

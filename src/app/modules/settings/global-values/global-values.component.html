@@ -1,0 +1,33 @@
+<mat-expansion-panel class="global-values" [formGroup]="settingsForm">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Global Variables</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="global-values-wrapper">
+    <div class="global-values-content" formArrayName="globalValues">
+      <div class="global-values-header" *ngIf="globalValues.controls.length > 0">
+        <div>Name</div>
+        <div>Value</div>
+      </div>
+      <div *ngFor="let globalValue of globalValues.controls; let i = index">
+        <div [formGroupName]="i" class="global-values-item">
+          <mat-form-field>
+            <input matInput type="text" formControlName="key" />
+            <mat-error *ngIf="globalValues.controls[i].get('key').hasError('required')">You need to type a name for the variable</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="text" formControlName="value" />
+            <mat-error *ngIf="globalValues.controls[i].get('value').hasError('required')">You need to type a value for the variable</mat-error>
+          </mat-form-field>
+          <button type="button" mat-icon-button (click)="removeGlobalValues(i)">
+            <i class="icon svg focusable">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="global-values-actions">
+      <button mat-raised-button color="accent" (click)="addGlobalValues()" type="button">Add Variable</button>
+    </div>
+  </div>
+</mat-expansion-panel>

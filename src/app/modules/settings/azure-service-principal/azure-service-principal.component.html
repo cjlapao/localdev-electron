@@ -1,0 +1,67 @@
+<mat-expansion-panel class="azure-sp" [formGroup]="settingsForm">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Azure Service Principals</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="azure-sp-wrapper">
+    <div class="azure-sp-content" formArrayName="azure">
+      <div *ngFor="let globalValue of azureSP.controls; let i = index">
+        <div [formGroupName]="i" class="azure-sp-item">
+          <div class="field-wrapper">
+            <mat-form-field>
+              <mat-label>Tenant ID</mat-label>
+              <input matInput type="text" formControlName="tenantId" />
+              <mat-error *ngIf="azureSP.controls[i].get('tenantId').hasError('required')">Tenant Id cannot be empty</mat-error>
+              <mat-error *ngIf="azureSP.controls[i].get('tenantId').hasError('pattern')">Tenant Id is not a valid GUID</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Subscription ID</mat-label>
+              <input matInput type="text" formControlName="subscriptionId" />
+              <mat-error *ngIf="azureSP.controls[i].get('subscriptionId').hasError('required')">Subscription Id cannot be empty</mat-error>
+              <mat-error *ngIf="azureSP.controls[i].get('subscriptionId').hasError('pattern')">Subscription Id is not a valid GUID</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Subscription Name</mat-label>
+              <input matInput type="text" formControlName="subscriptionName" />
+              <mat-error *ngIf="azureSP.controls[i].get('subscriptionName').hasError('required')">Subscription Name cannot be empty</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Application ID</mat-label>
+              <input matInput type="text" formControlName="applicationId" />
+              <mat-error *ngIf="azureSP.controls[i].get('applicationId').hasError('required')">Application Id cannot be empty</mat-error>
+              <mat-error *ngIf="azureSP.controls[i].get('applicationId').hasError('pattern')">Application Id is not a valid GUID</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Application Name</mat-label>
+              <input matInput type="text" formControlName="applicationName" />
+              <mat-error *ngIf="azureSP.controls[i].get('applicationName').hasError('required')">Application Name cannot be empty</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Application Password</mat-label>
+              <input matInput type="password" formControlName="applicationPassword" />
+              <mat-error *ngIf="azureSP.controls[i].get('applicationPassword').hasError('required')">Application Password cannot be empty</mat-error>
+              <mat-error *ngIf="azureSP.controls[i].get('applicationPassword').hasError('minlength')"
+                >Application Password needs to be a minimum of 6 charactes</mat-error
+              >
+            </mat-form-field>
+          </div>
+          <div class="button-wrapper">
+            <button type="button" mat-icon-button (click)="removeAzureSP(i)">
+              <i class="icon svg focusable">
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
+              </i>
+            </button>
+            <button type="button" mat-icon-button (click)="testError(i)">
+              <i class="icon svg focusable">
+                <fa-icon [icon]="faBug"></fa-icon>
+              </i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="azure-sp-actions">
+      <button mat-raised-button color="accent" (click)="addAzureSP()" type="button" disabled>Create Service Principal</button>
+      <button mat-raised-button color="accent" (click)="addAzureSP()" type="button">Add Service Principal</button>
+    </div>
+  </div>
+</mat-expansion-panel>

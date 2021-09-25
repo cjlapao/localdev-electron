@@ -6,5 +6,31 @@
 </div>
 <app-loader *ngIf="!isReady"></app-loader>
 <form [formGroup]="settingsForm" (ngSubmit)="upsertSettings()" *ngIf="isReady">
-  <div class="action-form"></div>
+  <div class="action-form">
+    <mat-accordion class="full-width">
+      <app-system-settings [settings]="settings" [system]="systemFormGroup"></app-system-settings>
+      <app-cluster-settings [settings]="settings" [cluster]="clusterFormGroup"></app-cluster-settings>
+      <app-global-values-settings
+        [settings]="settings"
+        [settingsForm]="settingsForm"
+        [globalValues]="globalValuesFormArray"
+      ></app-global-values-settings>
+      <app-namespaces-settings [settings]="settings" [settingsForm]="settingsForm" [namespaces]="namespacesFormArray"></app-namespaces-settings>
+      <app-default-addons-settings
+        [settings]="settings"
+        [settingsForm]="settingsForm"
+        [defaultAddons]="defaultAddonsFormArray"
+      ></app-default-addons-settings>
+      <app-azure-service-principal-settings
+        [settings]="settings"
+        [settingsForm]="settingsForm"
+        [azureSP]="azureFormArray"
+      ></app-azure-service-principal-settings>
+    </mat-accordion>
+  </div>
+  <div class="action-flow">
+    <button mat-raised-button color="accent" type="submit" [disabled]="(!settingsForm.touched && !settingsForm.dirty) || !settingsForm.valid">
+      Save
+    </button>
+  </div>
 </form>

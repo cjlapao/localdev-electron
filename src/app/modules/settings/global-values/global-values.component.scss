@@ -1,0 +1,36 @@
+.global-values {
+  .global-values-item {
+    padding: 3px;
+    display: flex;
+    align-items: center;
+  }
+  .mat-form-field {
+    width: 35%;
+    margin-bottom: 10px;
+  }
+
+  .mat-form-field + .mat-form-field {
+    width: 75%;
+    margin-left: 8px;
+  }
+  .global-values-header {
+    display: flex;
+    div {
+      padding-left: 5px;
+      padding-bottom: 2px;
+      width: 20%;
+    }
+
+    div + div {
+      width: 75%;
+      margin-left: 8px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .global-values-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
