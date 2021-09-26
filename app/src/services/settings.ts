@@ -29,7 +29,7 @@ export class SettingsService {
     globalValues: [],
     namespaces: [],
     defaultAddons: [],
-    defaultExtras: [],
+    extraKubernetesServices: [],
     azure: [],
     docker: {
       registries: [],

@@ -12,9 +12,10 @@ import { GlobalValuesComponent } from './global-values/global-values.component';
 import { NamespacesComponent } from './namespaces/namespaces.component';
 import { DefaultAddonsComponent } from './default-addons/default-addons.component';
 import { AzureServicePrincipalComponent } from './azure-service-principal/azure-service-principal.component';
+import { DefaultExtrasComponent } from './default-extras/default-extras.component';
 
 @NgModule({
-  declarations: [SettingsComponent, SystemComponent, ClusterComponent, GlobalValuesComponent, NamespacesComponent, DefaultAddonsComponent, AzureServicePrincipalComponent],
+  declarations: [SettingsComponent, SystemComponent, ClusterComponent, GlobalValuesComponent, NamespacesComponent, DefaultAddonsComponent, AzureServicePrincipalComponent, DefaultExtrasComponent],
   imports: [
     CommonModule,
     SettingsRoutingModule,

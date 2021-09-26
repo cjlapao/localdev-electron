@@ -1,0 +1,58 @@
+<mat-expansion-panel class="default-extras" [formGroup]="settingsForm">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Extra Kubernetes Addons</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="default-extras-wrapper">
+    <div class="default-extras-content" formArrayName="extraKubernetesServices">
+      <div *ngFor="let defaultExtra of defaultExtras.controls; let i = index" class="default-extras-item">
+        <div [formGroupName]="i">
+          <input type="text" hidden formControlName="id" />
+          <mat-form-field>
+            <mat-label>Name of Extra Service</mat-label>
+            <input matInput type="text" formControlName="name" [autocomplete]="auto" />
+          </mat-form-field>
+          <div class="helm-chart" formGroupName="helm">
+            <mat-form-field>
+              <mat-label>Helm Name</mat-label>
+              <input matInput type="text" formControlName="name" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Helm Path</mat-label>
+              <input matInput type="text" formControlName="path" />
+            </mat-form-field>
+            <button type="button" mat-icon-button (click)="addHelmChartKeyValue(i)">
+              <i class="icon svg focusable">
+                <fa-icon [icon]="faPlusCircle"></fa-icon>
+              </i>
+            </button>
+            <div *ngIf="getHelmChartValueFile(i)?.length > 0">
+              <div *ngFor="let helmChartValueFile of getHelmChartValueFile(i).controls; let f = index" class="default-extras-item">
+                <div [formGroupName]="f">
+                  <mat-form-field>
+                    <mat-label>Key</mat-label>
+                    <input matInput type="text" formControlName="key" />
+                  </mat-form-field>
+                  <div *ngIf="isChartValueKeyString(i, f)">String</div>
+                  <div *ngIf="!isChartValueKeyString(i, f)">complex</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let extra of filteredExtras[i] | async" [value]="extra">
+              {{ extra }}
+            </mat-option>
+          </mat-autocomplete>
+          <button type="button" mat-icon-button (click)="removeDefaultExtra(i)">
+            <i class="icon svg focusable">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="default-extras-actions">
+      <button mat-raised-button color="accent" (click)="addDefaultExtra()" type="button">Add Extra</button>
+    </div>
+  </div>
+</mat-expansion-panel>

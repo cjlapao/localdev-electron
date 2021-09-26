@@ -6,7 +6,7 @@ export interface Settings {
   globalValues: GlobalValue[];
   namespaces: Namespace[];
   defaultAddons: string[];
-  defaultExtras: string[];
+  extraKubernetesServices: ExtraKubernetesService[];
   azure: AzureServicePrincipal[];
   docker: SettingsDocker;
   neurons: Neurons;
@@ -51,6 +51,12 @@ export interface GlobalValue {
   value: string;
 }
 
+export interface ExtraKubernetesService {
+  id: string;
+  name: string;
+  helm: Helm;
+}
+
 export interface IstioSettings {
   namespace: string;
   enableKiali: boolean;
@@ -68,12 +74,12 @@ export interface LocalComponent {
 export interface Helm {
   name: string;
   path: string;
-  chartValueFile: HelmChartValue[];
+  chartValueFile?: HelmChartValue[];
 }
 
 export interface HelmChartValue {
   key: string;
-  value: object;
+  value: string | HelmChartValue;
 }
 
 export interface DockerImages {

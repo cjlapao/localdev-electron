@@ -50,6 +50,10 @@ export class SettingsComponent implements OnInit {
     return this.settingsForm.get('azure') as FormArray;
   }
 
+  get defaultExtrasFormArray(): FormArray {
+    return this.settingsForm.get('extraKubernetesServices') as FormArray;
+  }
+
   constructor(
     private settingsSvc: SettingsService,
     public fb: FormBuilder,
@@ -102,6 +106,7 @@ export class SettingsComponent implements OnInit {
       namespaces: this.fb.array([]),
       defaultAddons: this.fb.array([]),
       azure: this.fb.array([]),
+      extraKubernetesServices: this.fb.array([]),
     });
     console.log('almost');
     this._isReady = true;

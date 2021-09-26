@@ -43,6 +43,7 @@ export class DefaultAddonsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isReady = true;
+    this.convertDefaultAddonsToFormArray();
   }
 
   get availableAddons(): string[] {
