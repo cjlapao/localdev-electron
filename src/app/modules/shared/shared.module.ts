@@ -1,3 +1,4 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NgModule } from '@angular/core';
@@ -11,11 +12,14 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { HelmChartValueControlComponent } from './helm-chart-value-control/helm-chart-value-control.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  declarations: [LoaderComponent],
+  declarations: [LoaderComponent, HelmChartValueControlComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     MatExpansionModule,
     FontAwesomeModule,
     MatFormFieldModule,
@@ -27,9 +31,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatGridListModule,
     MatCheckboxModule,
     MatAutocompleteModule,
+    MatSlideToggleModule,
   ],
   exports: [
     LoaderComponent,
+    HelmChartValueControlComponent,
+    ReactiveFormsModule,
     MatExpansionModule,
     FontAwesomeModule,
     MatFormFieldModule,
@@ -41,6 +48,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatGridListModule,
     MatCheckboxModule,
     MatAutocompleteModule,
+    MatSlideToggleModule,
   ],
 })
 export class SharedModule {}

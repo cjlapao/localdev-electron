@@ -10,6 +10,7 @@ import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { StatusBarComponent } from './components/status-bar/status-bar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './modules/shared/shared.module';
+import { TestingComponent } from './components/testing/testing.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SharedModule } from './modules/shared/shared.module';
     SideMenuComponent,
     StatusBarComponent,
     HomeComponent,
+    TestingComponent,
   ],
   imports: [
     BrowserModule,

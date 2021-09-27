@@ -6,7 +6,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import {
   faCog,
-  faCactus,
+  faVial,
   faHome,
   faCoffee,
   faBracketsCurly,
@@ -44,6 +44,13 @@ const MENU_ITEMS: SideMenuItem[] = [
     name: 'Local Services',
     route: '/local-services',
     id: '_localServices',
+    items: [],
+  },
+  {
+    icon: faVial,
+    name: 'Testing Component',
+    route: '/testing',
+    id: '_testingComponent',
     items: [],
   },
 ];

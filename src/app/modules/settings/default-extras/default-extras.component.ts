@@ -52,21 +52,21 @@ export class DefaultExtrasComponent implements OnInit {
   }
 
   convertDefaultExtrasToFormArray() {
-    const defaultExtras = this.defaultExtras;
-    const availableExtras = this.extrasSvc.addons;
-    this.settings.extraKubernetesServices.forEach((v) => {
-      const addon = availableExtras.find((f) => f.id === v.id);
-      if (addon) {
-        const control = new FormControl(addon.name);
-        this.filteredExtras.push(
-          control.valueChanges.pipe(
-            startWith(''),
-            map((value) => this._filterAddons(value))
-          )
-        );
-        defaultExtras.push(control);
-      }
-    });
+    // const defaultExtras = this.defaultExtras;
+    // const availableExtras = this.extrasSvc.addons;
+    // this.settings.extraKubernetesServices.forEach((v) => {
+    //   const addon = availableExtras.find((f) => f.id === v.id);
+    //   if (addon) {
+    //     const control = new FormControl(addon.name);
+    //     this.filteredExtras.push(
+    //       control.valueChanges.pipe(
+    //         startWith(''),
+    //         map((value) => this._filterAddons(value))
+    //       )
+    //     );
+    //     defaultExtras.push(control);
+    //   }
+    // });
   }
 
   addDefaultExtra() {

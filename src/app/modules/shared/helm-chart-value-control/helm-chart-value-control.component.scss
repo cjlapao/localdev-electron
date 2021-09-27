@@ -1,0 +1,68 @@
+:host {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.helm-chart-values-wrapper {
+  display: flex;
+  align-items: center;
+
+  .helm-chart-values-item {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.06);
+    padding: 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .helm-chart-item-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+    }
+
+    .helm-chart-item-col {
+      display: flex;
+      flex-grow: 1;
+    }
+
+    .helm-chart-item-action-col {
+      background-color: red;
+      margin: 5px;
+      display: flex;
+      align-items: center;
+    }
+
+    .mat-form-field {
+      flex-grow: 1;
+    }
+
+    .mat-form-field + .mat-form-field {
+      margin-left: 5px;
+    }
+
+    .mat-checkbox {
+      margin-left: 8px;
+    }
+  }
+
+  .helm-chart-values-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+.helm-chart-values-subitem {
+  margin-left: 15px;
+  width: 100%;
+  min-width: 300px;
+
+  & .helm-chart-values-wrapper {
+    .helm-chart-values-item {
+      background-color: unset;
+    }
+  }
+}

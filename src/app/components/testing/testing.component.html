@@ -1,0 +1,21 @@
+<div class="full-width test-header">
+  <i class="icon svg focusable">
+    <fa-icon [icon]="faVial"></fa-icon>
+  </i>
+  Local Development Settings
+</div>
+<app-loader *ngIf="!isReady"></app-loader>
+<div *ngIf="isReady" class="test-content">
+  <form [formGroup]="chartTestValues">
+    <div *ngFor="let chartValue of chartValues.controls; let i = index">
+      Control {{ i }}
+      <app-helm-chart-value-control [chartValueControl]="getChartValueControl(i)"></app-helm-chart-value-control>
+    </div>
+    <div>
+      <div class="namespaces-actions">
+        <button mat-raised-button color="accent" (click)="addChartValue()" type="button">Add ChartValue</button>
+        <button mat-raised-button color="accent" (click)="testSave()" type="button">Test Save</button>
+      </div>
+    </div>
+  </form>
+</div>
