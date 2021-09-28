@@ -1,14 +1,15 @@
-import { faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
+import {
+  faPlusCircle,
+  faMinusCircle,
+} from '@fortawesome/pro-regular-svg-icons';
 import { ApplicationRef, Component, Input, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
-  FormControl,
   FormGroup,
   AbstractControl,
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { type } from 'os';
 
 @Component({
   selector: 'app-helm-chart-value-control',
@@ -17,8 +18,11 @@ import { type } from 'os';
 })
 export class HelmChartValueControlComponent implements OnInit {
   @Input() chartValueControl: AbstractControl;
+  @Input() index: number = -1;
+  @Input() parent: FormArray;
 
   faPlusCircle = faPlusCircle;
+  faMinusCircle = faMinusCircle;
 
   chartValues: FormArray;
   isReady = false;
@@ -61,6 +65,14 @@ export class HelmChartValueControlComponent implements OnInit {
       value: this.fb.control(''),
     });
     this.chartValues.push(valueControl);
+  }
+
+  remove() {
+    if (this.parent?.controls?.length > 0 && this.index >= 0) {
+      this.parent.removeAt(this.index);
+      this.parent.markAllAsTouched();
+      this.applicationRef.tick();
+    }
   }
 
   public toggle(event: MatSlideToggleChange) {
