@@ -12,11 +12,11 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { HelmChartValueControlComponent } from './helm-chart-value-control/helm-chart-value-control.component';
+import { HelmChartValuesControlComponent } from './helm-chart-values-control/helm-chart-values-control.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
-  declarations: [LoaderComponent, HelmChartValueControlComponent],
+  declarations: [LoaderComponent, HelmChartValuesControlComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -35,7 +35,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   ],
   exports: [
     LoaderComponent,
-    HelmChartValueControlComponent,
+    HelmChartValuesControlComponent,
     ReactiveFormsModule,
     MatExpansionModule,
     FontAwesomeModule,

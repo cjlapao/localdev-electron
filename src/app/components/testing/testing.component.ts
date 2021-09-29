@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { faVial } from '@fortawesome/pro-regular-svg-icons';
+import { faVial, faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
   selector: 'app-testing',
@@ -9,6 +9,7 @@ import { faVial } from '@fortawesome/pro-regular-svg-icons';
 })
 export class TestingComponent implements OnInit {
   faVial = faVial;
+  faPlusCircle = faPlusCircle;
   isReady = false;
   chartTestValues: FormGroup;
   constructor(private fb: FormBuilder) {}

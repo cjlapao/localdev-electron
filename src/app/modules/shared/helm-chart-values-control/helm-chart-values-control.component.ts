@@ -12,11 +12,11 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
-  selector: 'app-helm-chart-value-control',
-  templateUrl: './helm-chart-value-control.component.html',
-  styleUrls: ['./helm-chart-value-control.component.scss'],
+  selector: 'app-helm-chart-values-control',
+  templateUrl: './helm-chart-values-control.component.html',
+  styleUrls: ['./helm-chart-values-control.component.scss'],
 })
-export class HelmChartValueControlComponent implements OnInit {
+export class HelmChartValuesControlComponent implements OnInit {
   @Input() chartValueControl: AbstractControl;
   @Input() index: number = -1;
   @Input() parent: FormArray;

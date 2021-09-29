@@ -1,7 +1,17 @@
-<div *ngIf="chartValueControl" class="helm-chart-values-wrapper" [formGroup]="control">
+<div *ngIf="chartValueControl" class="helm-chart-values-wrapper tree_label" [formGroup]="control">
+  <!-- <li class="tree-sub-options-wrapper">
+    <div class="tree-options-filler"></div>
+    <div class="tree-options" *ngIf="isValueChartType">
+      <button type="button" mat-icon-button (click)="addSubItem()">
+        <i class="icon svg focusable">
+          <fa-icon [icon]="faPlusCircle"></fa-icon>
+        </i>
+      </button>
+    </div>
+  </li> -->
   <div class="helm-chart-values-item">
     <div class="helm-chart-item-row">
-      <mat-form-field class="helm-chart-key-field">
+      <mat-form-field class="helm-chart-key-field" [class.span-column]="isValueChartType">
         <mat-label>Key</mat-label>
         <input matInput type="text" formControlName="key" />
         <mat-error *ngIf="chartValueControl.get('key').hasError('required')">You need to type a name for the namespace</mat-error>
@@ -25,10 +35,10 @@
         </button>
       </div>
     </div>
-    <div *ngIf="isChartTypeValue()" class="helm-chart-values-subitem">
-      <div *ngFor="let values of chartValues.controls; let i = index">
-        <app-helm-chart-value-control [chartValueControl]="values" [parent]="chartValues" [index]="i"></app-helm-chart-value-control>
-      </div>
+    <div *ngIf="isChartTypeValue()" class="helm-chart-values-subitem" class="tree-sub">
+      <li *ngFor="let values of chartValues.controls; let i = index">
+        <app-helm-chart-values-control [chartValueControl]="values" [parent]="chartValues" [index]="i"></app-helm-chart-values-control>
+      </li>
     </div>
   </div>
 </div>

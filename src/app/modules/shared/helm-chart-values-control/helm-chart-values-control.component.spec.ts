@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HelmChartValueControlComponent } from './helm-chart-value-control.component';
+import { HelmChartValuesControlComponent } from './helm-chart-values-control.component';
 
 describe('HelmChartValueControlComponent', () => {
-  let component: HelmChartValueControlComponent;
-  let fixture: ComponentFixture<HelmChartValueControlComponent>;
+  let component: HelmChartValuesControlComponent;
+  let fixture: ComponentFixture<HelmChartValuesControlComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HelmChartValueControlComponent ]
-    })
-    .compileComponents();
+      declarations: [HelmChartValuesControlComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HelmChartValueControlComponent);
+    fixture = TestBed.createComponent(HelmChartValuesControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

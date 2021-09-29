@@ -2,15 +2,26 @@
   <i class="icon svg focusable">
     <fa-icon [icon]="faVial"></fa-icon>
   </i>
-  Local Development Settings
+  Testing Components (Unstable)
 </div>
 <app-loader *ngIf="!isReady"></app-loader>
 <div *ngIf="isReady" class="test-content">
   <form [formGroup]="chartTestValues">
-    <div *ngFor="let chartValue of chartValues.controls; let i = index">
-      Control {{ i }}
-      <app-helm-chart-value-control [chartValueControl]="getChartValueControl(i)"></app-helm-chart-value-control>
-    </div>
+    <ul class="tree" [class.tree-root-has-children]="chartValues.controls.length > 0">
+      <li class="tree-options-wrapper">
+        <div class="tree-options-filler" [class.tree-root-has-children]="chartValues.controls.length > 0"></div>
+        <div class="tree-options">
+          <button type="button" mat-icon-button (click)="addChartValue()">
+            <i class="icon svg focusable">
+              <fa-icon [icon]="faPlusCircle"></fa-icon>
+            </i>
+          </button>
+        </div>
+      </li>
+      <li *ngFor="let chartValue of chartValues.controls; let i = index" [class.tree-first-child]="i === 0">
+        <app-helm-chart-values-control [chartValueControl]="getChartValueControl(i)"></app-helm-chart-values-control>
+      </li>
+    </ul>
     <div>
       <div class="namespaces-actions">
         <button mat-raised-button color="accent" (click)="addChartValue()" type="button">Add ChartValue</button>
