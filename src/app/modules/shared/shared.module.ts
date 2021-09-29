@@ -14,6 +14,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HelmChartValuesControlComponent } from './helm-chart-values-control/helm-chart-values-control.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { HelmChartModule } from '../helm-chart/helm-chart.module';
 
 @NgModule({
   declarations: [LoaderComponent, HelmChartValuesControlComponent],
@@ -32,6 +33,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatCheckboxModule,
     MatAutocompleteModule,
     MatSlideToggleModule,
+    HelmChartModule,
   ],
   exports: [
     LoaderComponent,
@@ -49,6 +51,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatCheckboxModule,
     MatAutocompleteModule,
     MatSlideToggleModule,
+    HelmChartModule,
   ],
 })
 export class SharedModule {}
