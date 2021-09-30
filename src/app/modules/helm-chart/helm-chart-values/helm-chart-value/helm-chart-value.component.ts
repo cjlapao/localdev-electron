@@ -10,6 +10,7 @@ import {
   faMinusCircle,
   faPlusCircle,
 } from '@fortawesome/pro-regular-svg-icons';
+import { KeyboardEvent } from 'electron/main';
 
 @Component({
   selector: 'app-helm-chart-value',
@@ -27,10 +28,13 @@ export class HelmChartValueComponent implements OnInit {
   chartValues: FormArray;
   isReady = false;
   isValueChartType = false;
+  valueArrayItems: string[];
   constructor(
     private fb: FormBuilder,
     private applicationRef: ApplicationRef
-  ) {}
+  ) {
+    this.valueArrayItems = []
+  }
 
   ngOnInit(): void {
     this.isReady = true;
@@ -58,12 +62,32 @@ export class HelmChartValueComponent implements OnInit {
     return this.chartValueControl as FormGroup;
   }
 
+  get valueContent(): string {
+    const result = this.chartValueControl.get('value').value
+    if (result && typeof result === 'string') {
+      return result as string
+    }
+    return null
+  }
+
+  addValueArrayItem() {
+    const value = this.chartValueControl.get('value')
+    if (value) {
+      console.log(value)
+    }
+  }
   addSubItem() {
     console.log(`button clicked ${this.isValueChartType}`);
     const valueControl = this.fb.group({
       key: this.fb.control(''),
       value: this.fb.control(''),
     });
+    valueControl.get('value').valueChanges.subscribe((change: string) => {
+      if (change.includes(", ")) {
+        let word  = change.substring(0, change.indexOf(','))
+        console.log(word)
+      }
+    })
     this.chartValues.push(valueControl);
   }
 
@@ -73,6 +97,9 @@ export class HelmChartValueComponent implements OnInit {
       this.parent.markAllAsTouched();
       this.applicationRef.tick();
     }
+  }
+
+  onValueChange(event: InputEvent) {
   }
 
   public toggle(event: MatSlideToggleChange) {

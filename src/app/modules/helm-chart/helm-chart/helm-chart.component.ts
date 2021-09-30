@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -14,10 +14,17 @@ export class HelmChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.isReady = true;
-    this.helmChartGroup = this.fb.group({
-      name: this.fb.control('', [Validators.required]),
-      path: this.fb.control('', [Validators.required]),
-      chartValues: this.fb.array([]),
-    });
+    if (!this.helmChartGroup) {
+      console.log('does not exists')
+      this.helmChartGroup = this.fb.group({
+        name: this.fb.control('', [Validators.required]),
+        path: this.fb.control('', [Validators.required]),
+        chartValues: this.fb.array([]),
+      });
+    }
+  }
+
+  test(): string {
+    return JSON.stringify(this.helmChartGroup.value)
   }
 }

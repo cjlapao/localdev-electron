@@ -7,7 +7,7 @@
 <app-loader *ngIf="!isReady"></app-loader>
 <div *ngIf="isReady" class="test-content">
   <form [formGroup]="chartTestValues">
-    <app-helm-chart></app-helm-chart>
+    <app-helm-chart [helmChartGroup]="chartTestValues"></app-helm-chart>
     <div>
       <div class="namespaces-actions">
         <button mat-raised-button color="accent" (click)="addChartValue()" type="button">Add ChartValue</button>

@@ -16,9 +16,15 @@
         <input matInput type="text" formControlName="key" />
         <mat-error *ngIf="chartValueControl.get('key').hasError('required')">You need to type a name for the namespace</mat-error>
       </mat-form-field>
+
       <mat-form-field *ngIf="!isChartTypeValue()" class="value-form-field">
         <mat-label>Value</mat-label>
         <input matInput type="text" formControlName="value" />
+        <button *ngIf="valueContent?.length > 0"  mat-icon-button matSuffix (click)="addValueArrayItem()" [attr.aria-label]="'Hide password'">
+          <i class="icon svg focusable">
+            <fa-icon [icon]="faPlusCircle"></fa-icon>
+          </i>
+        </button>
         <mat-error *ngIf="chartValueControl.get('value').hasError('required')">You need to type a name for the namespace</mat-error>
       </mat-form-field>
       <div class="helm-chart-item-action">
