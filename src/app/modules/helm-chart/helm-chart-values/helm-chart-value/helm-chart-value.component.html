@@ -16,17 +16,32 @@
         <input matInput type="text" formControlName="key" />
         <mat-error *ngIf="chartValueControl.get('key').hasError('required')">You need to type a name for the namespace</mat-error>
       </mat-form-field>
-
-      <mat-form-field *ngIf="!isChartTypeValue()" class="value-form-field">
+      <mat-chip-list #chipList *ngIf="!isChartTypeValue()">
+        <mat-form-field>
+          <mat-label>Value</mat-label>
+          <input
+            matInput
+            type="text"
+            [formControl]="valueChips.length > 0 ? valueChipControl : valueControl"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addValueChip($event)"
+          />
+        </mat-form-field>
+        <mat-chip *ngFor="let value of valueChips; let i = index" [selectable]="selectable" [removable]="removable" (removed)="removeValueChip(i)"
+          >{{ value }}
+          <button matChipRemove>
+            <i class="icon svg focusable">
+              <fa-icon [icon]="faMinusCircle"></fa-icon>
+            </i>
+          </button>
+        </mat-chip>
+      </mat-chip-list>
+      <!-- <mat-form-field *ngIf="!isChartTypeValue()" class="value-form-field">
         <mat-label>Value</mat-label>
         <input matInput type="text" formControlName="value" />
-        <button *ngIf="valueContent?.length > 0"  mat-icon-button matSuffix (click)="addValueArrayItem()" [attr.aria-label]="'Hide password'">
-          <i class="icon svg focusable">
-            <fa-icon [icon]="faPlusCircle"></fa-icon>
-          </i>
-        </button>
         <mat-error *ngIf="chartValueControl.get('value').hasError('required')">You need to type a name for the namespace</mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
       <div class="helm-chart-item-action">
         <mat-slide-toggle class="example-margin" [checked]="isValueChartType" (change)="toggle($event)"></mat-slide-toggle>
         <button *ngIf="isValueChartType" type="button" mat-icon-button (click)="addSubItem()">

@@ -3,6 +3,7 @@ import {
   AbstractControl,
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -10,7 +11,8 @@ import {
   faMinusCircle,
   faPlusCircle,
 } from '@fortawesome/pro-regular-svg-icons';
-import { KeyboardEvent } from 'electron/main';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-helm-chart-value',
@@ -21,19 +23,19 @@ export class HelmChartValueComponent implements OnInit {
   @Input() chartValueControl: AbstractControl;
   @Input() index: number = -1;
   @Input() parent: FormArray;
-
+  selectable = true;
+  removable = true;
   faPlusCircle = faPlusCircle;
   faMinusCircle = faMinusCircle;
-
+  separatorKeysCodes: number[] = [ENTER, COMMA];
   chartValues: FormArray;
   isReady = false;
   isValueChartType = false;
-  valueArrayItems: string[];
-  constructor(
-    private fb: FormBuilder,
-    private applicationRef: ApplicationRef
-  ) {
-    this.valueArrayItems = []
+  valueChips: string[];
+  valueChipControl: FormControl;
+  constructor(private fb: FormBuilder, private applicationRef: ApplicationRef) {
+    this.valueChips = [];
+    this.valueChipControl = fb.control('');
   }
 
   ngOnInit(): void {
@@ -51,6 +53,10 @@ export class HelmChartValueComponent implements OnInit {
       return false;
     }
 
+    if (Array.isArray(value)) {
+      return false;
+    }
+
     return true;
   }
 
@@ -62,32 +68,51 @@ export class HelmChartValueComponent implements OnInit {
     return this.chartValueControl as FormGroup;
   }
 
-  get valueContent(): string {
-    const result = this.chartValueControl.get('value').value
-    if (result && typeof result === 'string') {
-      return result as string
-    }
-    return null
+  get valueControl(): FormControl {
+    return this.chartValueControl.get('value') as FormControl;
   }
 
-  addValueArrayItem() {
-    const value = this.chartValueControl.get('value')
+  get valueContent(): string {
+    const result = this.chartValueControl.get('value').value;
+    if (result && typeof result === 'string') {
+      return result as string;
+    }
+    return null;
+  }
+
+  addValueChip(event: MatChipInputEvent) {
+    console.log(event);
+    const value = (event.value || '').trim();
+
+    // Add our fruit
     if (value) {
-      console.log(value)
+      this.valueChips.push(value);
+    }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.chartValueControl.get('value').setValue(this.valueChips);
+
+    // this.valueChipControl.setValue(null);
+  }
+
+  removeValueChip(index: number) {
+    if (index >= 0) {
+      this.valueChips.splice(index, 1);
+    }
+
+    if (this.valueChips.length === 0) {
+      this.chartValueControl.get('value').setValue('');
     }
   }
+
   addSubItem() {
     console.log(`button clicked ${this.isValueChartType}`);
     const valueControl = this.fb.group({
       key: this.fb.control(''),
       value: this.fb.control(''),
     });
-    valueControl.get('value').valueChanges.subscribe((change: string) => {
-      if (change.includes(", ")) {
-        let word  = change.substring(0, change.indexOf(','))
-        console.log(word)
-      }
-    })
     this.chartValues.push(valueControl);
   }
 
@@ -99,8 +124,7 @@ export class HelmChartValueComponent implements OnInit {
     }
   }
 
-  onValueChange(event: InputEvent) {
-  }
+  onValueChange(event: InputEvent) {}
 
   public toggle(event: MatSlideToggleChange) {
     console.log('toggle', event.checked);
