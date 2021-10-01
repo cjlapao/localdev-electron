@@ -43,23 +43,6 @@ export class HelmChartValueComponent implements OnInit {
     console.log(this.chartValueControl);
   }
 
-  isChartTypeValue(): boolean {
-    const value = this.chartValueControl.get('value').value;
-    if (!value && value !== '') {
-      return false;
-    }
-
-    if (typeof value === 'string') {
-      return false;
-    }
-
-    if (Array.isArray(value)) {
-      return false;
-    }
-
-    return true;
-  }
-
   get chartTypeValue(): FormGroup {
     return this.chartValueControl.get('value') as FormGroup;
   }
@@ -92,7 +75,7 @@ export class HelmChartValueComponent implements OnInit {
     // Clear the input value
     event.chipInput!.clear();
 
-    this.chartValueControl.get('value').setValue(this.valueChips);
+    this.chartValueControl?.get('value').setValue(this.valueChips);
 
     // this.valueChipControl.setValue(null);
   }

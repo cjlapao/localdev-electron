@@ -1,14 +1,4 @@
 <div *ngIf="chartValueControl" class="helm-chart-values-wrapper tree_label" [formGroup]="control">
-  <!-- <li class="tree-sub-options-wrapper">
-    <div class="tree-options-filler"></div>
-    <div class="tree-options" *ngIf="isValueChartType">
-      <button type="button" mat-icon-button (click)="addSubItem()">
-        <i class="icon svg focusable">
-          <fa-icon [icon]="faPlusCircle"></fa-icon>
-        </i>
-      </button>
-    </div>
-  </li> -->
   <div class="helm-chart-values-item">
     <div class="helm-chart-item-row">
       <mat-form-field class="helm-chart-key-field" [class.span-column]="isValueChartType">
@@ -16,9 +6,20 @@
         <input matInput type="text" formControlName="key" />
         <mat-error *ngIf="chartValueControl.get('key').hasError('required')">You need to type a name for the namespace</mat-error>
       </mat-form-field>
-      <mat-chip-list #chipList *ngIf="!isChartTypeValue()">
-        <mat-form-field>
-          <mat-label>Value</mat-label>
+      <mat-form-field *ngIf="!isValueChartType" [class.span-column]="isValueChartType">
+        <mat-label>
+          <span *ngIf="valueChips.length > 0"> Array </span>
+          <span *ngIf="valueChips.length === 0"> Value </span>
+        </mat-label>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let value of valueChips; let i = index" [selectable]="selectable" [removable]="removable" (removed)="removeValueChip(i)"
+            >{{ value }}
+            <button matChipRemove>
+              <i class="icon svg focusable">
+                <fa-icon [icon]="faMinusCircle"></fa-icon>
+              </i>
+            </button>
+          </mat-chip>
           <input
             matInput
             type="text"
@@ -27,23 +28,15 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             (matChipInputTokenEnd)="addValueChip($event)"
           />
-        </mat-form-field>
-        <mat-chip *ngFor="let value of valueChips; let i = index" [selectable]="selectable" [removable]="removable" (removed)="removeValueChip(i)"
-          >{{ value }}
-          <button matChipRemove>
-            <i class="icon svg focusable">
-              <fa-icon [icon]="faMinusCircle"></fa-icon>
-            </i>
-          </button>
-        </mat-chip>
-      </mat-chip-list>
+        </mat-chip-list>
+      </mat-form-field>
       <!-- <mat-form-field *ngIf="!isChartTypeValue()" class="value-form-field">
         <mat-label>Value</mat-label>
         <input matInput type="text" formControlName="value" />
         <mat-error *ngIf="chartValueControl.get('value').hasError('required')">You need to type a name for the namespace</mat-error>
       </mat-form-field> -->
       <div class="helm-chart-item-action">
-        <mat-slide-toggle class="example-margin" [checked]="isValueChartType" (change)="toggle($event)"></mat-slide-toggle>
+        <mat-slide-toggle *ngIf="valueChips.length === 0" [checked]="isValueChartType" (change)="toggle($event)"></mat-slide-toggle>
         <button *ngIf="isValueChartType" type="button" mat-icon-button (click)="addSubItem()">
           <i class="icon svg focusable">
             <fa-icon [icon]="faPlusCircle"></fa-icon>
@@ -56,7 +49,7 @@
         </button>
       </div>
     </div>
-    <div *ngIf="isChartTypeValue()" class="helm-chart-values-subitem" class="tree-sub">
+    <div *ngIf="isValueChartType" class="helm-chart-values-subitem" class="tree-sub">
       <li *ngFor="let values of chartValues.controls; let i = index">
         <app-helm-chart-value [chartValueControl]="values" [parent]="chartValues" [index]="i"></app-helm-chart-value>
       </li>
