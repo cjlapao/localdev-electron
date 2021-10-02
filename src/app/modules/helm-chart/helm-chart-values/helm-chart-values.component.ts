@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faPlusCircle, faVial } from '@fortawesome/pro-regular-svg-icons';
 
 @Component({
@@ -33,15 +33,9 @@ export class HelmChartValuesComponent implements OnInit {
 
   addChartValue() {
     const control = this.fb.group({
-      key: this.fb.control(''),
-      value: this.fb.control(''),
+      key: this.fb.control('', [Validators.required]),
+      value: this.fb.control('', [Validators.required]),
     });
     this.chartValues.push(control);
   }
-
-  testSave() {
-    console.log(this.chartTestValues.value);
-  }
-
-  testObject() {}
 }

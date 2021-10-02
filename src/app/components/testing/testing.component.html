@@ -4,15 +4,24 @@
   </i>
   Testing Components (Unstable)
 </div>
-<app-loader *ngIf="!isReady"></app-loader>
-<div *ngIf="isReady" class="test-content">
-  <form [formGroup]="chartTestValues">
-    <app-helm-chart [helmChartGroup]="chartTestValues"></app-helm-chart>
-    <div>
-      <div class="namespaces-actions">
-        <button mat-raised-button color="accent" (click)="addChartValue()" type="button">Add ChartValue</button>
-        <button mat-raised-button color="accent" (click)="testSave()" type="button">Test Save</button>
-      </div>
-    </div>
-  </form>
+<div class="debug-tools">
+  <button type="button" mat-icon-button (click)="developerMode = !developerMode" color="accent">
+    <i class="icon svg focusable">
+      <fa-icon [icon]="facDeveloperMode"></fa-icon>
+    </i>
+  </button>
 </div>
+<app-tester [enable]="developerMode">
+  <app-loader *ngIf="!isReady"></app-loader>
+  <div *ngIf="isReady" class="test-content">
+    <form [formGroup]="chartTestValues">
+      <app-helm-chart [helmChartGroup]="chartTestValues"></app-helm-chart>
+      <div>
+        <div class="namespaces-actions">
+          <button mat-raised-button color="accent" (click)="addChartValue()" type="button">Add ChartValue</button>
+          <button mat-raised-button color="accent" (click)="testSave()" type="button">Test Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</app-tester>

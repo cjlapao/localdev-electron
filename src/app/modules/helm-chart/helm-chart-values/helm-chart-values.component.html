@@ -1,9 +1,9 @@
 <div *ngIf="chartValues">
   <ul class="tree" [class.tree-root-has-children]="chartValues.controls.length > 0">
-    <li class="tree-options-wrapper">
-      <div class="tree-options-filler" [class.tree-root-has-children]="chartValues.controls.length > 0"></div>
+    <li class="tree-root-options" [class.tree-root-has-children]="chartValues.controls.length > 0">
+      <div class="tree-root-options-filler" [class.tree-root-has-children]="chartValues.controls.length > 0"></div>
       <div class="tree-options">
-        <button type="button" mat-icon-button (click)="addChartValue()">
+        <button type="button" mat-icon-button (click)="addChartValue()" color="accent">
           <i class="icon svg focusable">
             <fa-icon [icon]="faPlusCircle"></fa-icon>
           </i>
@@ -11,7 +11,7 @@
       </div>
     </li>
     <li *ngFor="let chartValue of chartValues.controls; let i = index" [class.tree-first-child]="i === 0">
-      <app-helm-chart-value [chartValueControl]="getChartValueControl(i)"></app-helm-chart-value>
+      <app-helm-chart-value [chartValueControl]="getChartValueControl(i)" [parent]="chartValues" [index]="i"></app-helm-chart-value>
     </li>
   </ul>
 </div>

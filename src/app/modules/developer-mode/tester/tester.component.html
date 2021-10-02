@@ -1,0 +1,6 @@
+<div *ngIf="enable" class="developer-mode-wrapper">
+  <ng-content *ngIf="enable"></ng-content>
+</div>
+<div *ngIf="!enable">
+  <ng-content *ngIf="!enable"></ng-content>
+</div>

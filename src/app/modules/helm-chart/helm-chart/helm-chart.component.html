@@ -1,4 +1,13 @@
 <div>
-  <app-helm-chart-values [helmChartGroup]="helmChartGroup"></app-helm-chart-values>
-  {{ test()}}
+  <div class="content-wrapper">
+    <div class="chart-values">
+      <app-helm-chart-values [helmChartGroup]="helmChartGroup"></app-helm-chart-values>
+    </div>
+  </div>
+  <div class="developer-mode-wrapper">
+    <div class="developer-mode-action"></div>
+    <div class="developer-mode-content">
+      {{ test() }}
+    </div>
+  </div>
 </div>

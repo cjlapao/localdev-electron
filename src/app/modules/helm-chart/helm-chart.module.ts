@@ -9,6 +9,7 @@ import { HelmChartValueComponent } from './helm-chart-values/helm-chart-value/he
 import { HelmChartComponent } from './helm-chart/helm-chart.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatSlideToggleModule,
     FontAwesomeModule,
     MatButtonModule,
-    MatChipsModule
+    MatChipsModule,
+    MatTooltipModule,
   ],
   exports: [
     HelmChartValuesComponent,

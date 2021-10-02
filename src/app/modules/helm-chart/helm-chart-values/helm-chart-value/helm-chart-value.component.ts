@@ -5,14 +5,17 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  Validators,
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import {
   faMinusCircle,
   faPlusCircle,
+  faVial,
 } from '@fortawesome/pro-regular-svg-icons';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { SEPARATOR_KEYS_CODES } from '../../../shared/constants/constants';
 
 @Component({
   selector: 'app-helm-chart-value',
@@ -20,31 +23,36 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./helm-chart-value.component.scss'],
 })
 export class HelmChartValueComponent implements OnInit {
+  // Input Controls
   @Input() chartValueControl: AbstractControl;
   @Input() index: number = -1;
   @Input() parent: FormArray;
-  selectable = true;
-  removable = true;
+  @Input() selectable = true;
+  @Input() removable = true;
+  // Icons
   faPlusCircle = faPlusCircle;
   faMinusCircle = faMinusCircle;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  faVial = faVial;
+  separatorKeysCodes = SEPARATOR_KEYS_CODES;
+
   chartValues: FormArray;
   isReady = false;
   isValueChartType = false;
+
+  // Value Chips
   valueChips: string[];
   valueChipControl: FormControl;
+
   constructor(private fb: FormBuilder, private applicationRef: ApplicationRef) {
     this.valueChips = [];
-    this.valueChipControl = fb.control('');
+    this.valueChipControl = fb.control('', [
+      Validators.required,
+      Validators.minLength(1),
+    ]);
   }
 
   ngOnInit(): void {
     this.isReady = true;
-    console.log(this.chartValueControl);
-  }
-
-  get chartTypeValue(): FormGroup {
-    return this.chartValueControl.get('value') as FormGroup;
   }
 
   get control(): FormGroup {
@@ -52,54 +60,49 @@ export class HelmChartValueComponent implements OnInit {
   }
 
   get valueControl(): FormControl {
-    return this.chartValueControl.get('value') as FormControl;
+    const control = this.chartValueControl.get('value') as FormControl;
+    return control;
   }
 
   get valueContent(): string {
-    const result = this.chartValueControl.get('value').value;
+    const result = this.valueControl.value;
     if (result && typeof result === 'string') {
       return result as string;
     }
     return null;
   }
 
-  addValueChip(event: MatChipInputEvent) {
-    console.log(event);
+  addValueToChip(event: MatChipInputEvent) {
     const value = (event.value || '').trim();
 
-    // Add our fruit
     if (value) {
       this.valueChips.push(value);
     }
 
-    // Clear the input value
     event.chipInput!.clear();
 
-    this.chartValueControl?.get('value').setValue(this.valueChips);
-
-    // this.valueChipControl.setValue(null);
+    this.valueControl?.setValue(this.valueChips);
   }
 
-  removeValueChip(index: number) {
+  removeValueFromChip(index: number) {
     if (index >= 0) {
       this.valueChips.splice(index, 1);
     }
 
     if (this.valueChips.length === 0) {
-      this.chartValueControl.get('value').setValue('');
+      this.valueControl.setValue('');
     }
   }
 
-  addSubItem() {
-    console.log(`button clicked ${this.isValueChartType}`);
+  addChild() {
     const valueControl = this.fb.group({
-      key: this.fb.control(''),
-      value: this.fb.control(''),
+      key: this.fb.control('', [Validators.required]),
+      value: this.fb.control('', [Validators.required]),
     });
     this.chartValues.push(valueControl);
   }
 
-  remove() {
+  removeChild() {
     if (this.parent?.controls?.length > 0 && this.index >= 0) {
       this.parent.removeAt(this.index);
       this.parent.markAllAsTouched();
@@ -107,26 +110,17 @@ export class HelmChartValueComponent implements OnInit {
     }
   }
 
-  onValueChange(event: InputEvent) {}
-
-  public toggle(event: MatSlideToggleChange) {
-    console.log('toggle', event.checked);
+  toggleChild(event: MatSlideToggleChange) {
     if (event.checked) {
       this.chartValues = this.fb.array([]);
-      this.addSubItem();
+      this.addChild();
       this.control.setControl('value', this.chartValues);
       console.log(this.control.get('value'));
     } else {
-      const stringControl = this.fb.control('');
+      const stringControl = this.fb.control('', [Validators.required]);
       this.control.setControl('value', stringControl);
     }
     this.isValueChartType = event.checked;
     this.applicationRef.tick();
   }
-
-  get testToggle(): boolean {
-    return this.isValueChartType;
-  }
-
-  addChartChartValue() {}
 }

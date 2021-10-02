@@ -1,55 +1,70 @@
-<div *ngIf="chartValueControl" class="helm-chart-values-wrapper tree_label" [formGroup]="control">
-  <div class="helm-chart-values-item">
+<div *ngIf="chartValueControl" class="helm-chart-value-wrapper tree-label" [formGroup]="control" [class.tree-has-child]="isValueChartType">
+  <div class="helm-chart-value-item">
     <div class="helm-chart-item-row">
-      <mat-form-field class="helm-chart-key-field" [class.span-column]="isValueChartType">
-        <mat-label>Key</mat-label>
-        <input matInput type="text" formControlName="key" />
-        <mat-error *ngIf="chartValueControl.get('key').hasError('required')">You need to type a name for the namespace</mat-error>
-      </mat-form-field>
-      <mat-form-field *ngIf="!isValueChartType" [class.span-column]="isValueChartType">
-        <mat-label>
-          <span *ngIf="valueChips.length > 0"> Array </span>
-          <span *ngIf="valueChips.length === 0"> Value </span>
-        </mat-label>
-        <mat-chip-list #chipList>
-          <mat-chip *ngFor="let value of valueChips; let i = index" [selectable]="selectable" [removable]="removable" (removed)="removeValueChip(i)"
-            >{{ value }}
-            <button matChipRemove>
-              <i class="icon svg focusable">
-                <fa-icon [icon]="faMinusCircle"></fa-icon>
-              </i>
-            </button>
-          </mat-chip>
-          <input
-            matInput
-            type="text"
-            [formControl]="valueChips.length > 0 ? valueChipControl : valueControl"
-            [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="addValueChip($event)"
-          />
-        </mat-chip-list>
-      </mat-form-field>
-      <!-- <mat-form-field *ngIf="!isChartTypeValue()" class="value-form-field">
-        <mat-label>Value</mat-label>
-        <input matInput type="text" formControlName="value" />
-        <mat-error *ngIf="chartValueControl.get('value').hasError('required')">You need to type a name for the namespace</mat-error>
-      </mat-form-field> -->
+      <div class="helm-chart-item-form">
+        <mat-form-field class="helm-chart-key-field" [class.column-span]="isValueChartType">
+          <mat-label>Key</mat-label>
+          <input matInput #key type="text" formControlName="key" matTooltip="Property name" />
+          <mat-error *ngIf="chartValueControl.get('key').hasError('required')">You need to type a value for the key</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="!isValueChartType">
+          <mat-label>
+            <span *ngIf="valueChips.length > 0 && key.value.length === 0">Array</span>
+            <span *ngIf="valueChips.length > 0 && key.value.length > 0">Array for {{ key.value }}</span>
+            <span *ngIf="valueChips.length === 0 && key.value.length === 0">Value</span>
+            <span *ngIf="valueChips.length === 0 && key.value.length > 0">Value for {{ key.value }}</span>
+          </mat-label>
+          <mat-chip-list #chipList formControlName="value">
+            <mat-chip
+              *ngFor="let value of valueChips; let i = index"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="removeValueFromChip(i)"
+              >{{ value }}
+              <button matChipRemove>
+                <i class="icon svg focusable">
+                  <fa-icon [icon]="faMinusCircle"></fa-icon>
+                </i>
+              </button>
+            </mat-chip>
+            <input
+              matInput
+              type="text"
+              [formControl]="valueChips.length > 0 ? valueChipControl : valueControl"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="addValueToChip($event)"
+              matTooltip="Property value, if you want an array just press 'Enter' or ',' after each value"
+            />
+          </mat-chip-list>
+          <mat-error *ngIf="chartValueControl.get('value').hasError('required') && key.value.length > 0"
+            >You need to type a value for {{ key.value }}</mat-error
+          >
+          <mat-error *ngIf="chartValueControl.get('value').hasError('required') && key.value.length === 0"
+            >You need to type a value for key</mat-error
+          >
+        </mat-form-field>
+      </div>
       <div class="helm-chart-item-action">
-        <mat-slide-toggle *ngIf="valueChips.length === 0" [checked]="isValueChartType" (change)="toggle($event)"></mat-slide-toggle>
-        <button *ngIf="isValueChartType" type="button" mat-icon-button (click)="addSubItem()">
+        <mat-slide-toggle
+          *ngIf="valueChips.length === 0"
+          [checked]="isValueChartType"
+          (change)="toggleChild($event)"
+          matTooltip="Toggle between object and string value"
+        ></mat-slide-toggle>
+        <button *ngIf="isValueChartType" type="button" mat-icon-button color="accent" matTooltip="Add a child property" (click)="addChild()">
           <i class="icon svg focusable">
             <fa-icon [icon]="faPlusCircle"></fa-icon>
           </i>
         </button>
-        <button *ngIf="index > -1" type="button" mat-icon-button (click)="remove()">
+        <button *ngIf="index > -1" type="button" mat-icon-button color="warn" matTooltip="Remove property" (click)="removeChild()">
           <i class="icon svg focusable">
             <fa-icon [icon]="faMinusCircle"></fa-icon>
           </i>
         </button>
       </div>
     </div>
-    <div *ngIf="isValueChartType" class="helm-chart-values-subitem" class="tree-sub">
+    <div *ngIf="isValueChartType" class="helm-chart-value-child">
       <li *ngFor="let values of chartValues.controls; let i = index">
         <app-helm-chart-value [chartValueControl]="values" [parent]="chartValues" [index]="i"></app-helm-chart-value>
       </li>

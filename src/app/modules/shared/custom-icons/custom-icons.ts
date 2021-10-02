@@ -43,3 +43,15 @@ export const facValidate: IconDefinition = {
     'M 16.34,19 22,13.34 20.59,11.93 16.34,16.17 14.22,14.05 12.81,15.46 Z M 3,14 h 7 v 2 H 3 Z M 3,6 H 14 V 8 H 3 Z m 0,4 h 11 v 2 H 3 Z',
   ],
 } as any;
+
+export const facDeveloperMode: IconDefinition = {
+  prefix: 'fac',
+  iconName: 'ivanti',
+  icon: [
+    32,
+    32,
+    [],
+    null,
+    'M7 5h10v2h2V3c0-1.1-.9-1.99-2-1.99L7 1c-1.1 0-2 .9-2 2v4h2V5zm8.41 11.59L20 12l-4.59-4.59L14 8.83 17.17 12 14 15.17l1.41 1.42zM10 15.17L6.83 12 10 8.83 8.59 7.41 4 12l4.59 4.59L10 15.17zM17 19H7v-2H5v4c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2v-4h-2v2z',
+  ],
+} as any;

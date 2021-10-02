@@ -1,0 +1,122 @@
+// Tree
+:root {
+  --tree-label-item-margin: 5px;
+}
+
+.tree {
+  list-style-type: none;
+  margin: 1em;
+  background-color: rgba($color: var(--layoutBackgroundRgb), $alpha: 0.5);
+  border-radius: 4px;
+  list-style-type: none;
+  padding: 1em;
+
+  li:not(.tree-root-options):not(.tree-sub-options-wrapper) {
+    line-height: 1.2;
+    position: relative;
+    padding: 0 0 0 3em;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 22px;
+      display: block;
+      width: 0;
+      border-left: 2px solid var(--textColorPrimary);
+      content: "";
+    }
+    &:last-child::before {
+      display: none;
+    }
+  }
+
+  .tree-root-options {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    line-height: 1.2;
+    position: relative;
+    line-height: 1.2;
+    position: relative;
+    padding: 0 0 0 3em;
+
+    &:not(.tree-root-has-children)::before {
+      display: none;
+    }
+
+    &::before {
+      position: absolute;
+      top: 18px;
+      bottom: 0;
+      left: 22px;
+      display: block;
+      width: 0;
+      border-left: 2px solid var(--textColorPrimary);
+      content: "";
+    }
+
+    .tree-root-options-filler {
+      flex-grow: 1;
+
+      &:not(.tree-root-has-children)::before {
+        display: none;
+      }
+
+      &.tree-root-has-children::before {
+        display: inline-block;
+        background: var(--textColorPrimary);
+        position: absolute;
+        top: 4px;
+        left: 15px;
+        height: 15px;
+        z-index: 999;
+        width: 15px;
+        border-radius: 50%;
+        content: "";
+      }
+    }
+
+    .tree-options {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .tree-label {
+    position: relative;
+    display: inline-block;
+
+    &:before {
+      position: absolute;
+      top: calc(0px - var(--tree-label-item-margin));
+      left: -20px;
+      display: block;
+      height: calc(100% - (100% - 25px));
+      width: 26px;
+      border-bottom: 2px solid var(--textColorPrimary);
+      border-left: 2px solid var(--textColorPrimary);
+      border-radius: 0 0 0 15px;
+      content: "";
+    }
+
+    &.tree-has-child {
+      &:not(:first-child):after {
+        position: absolute;
+        top: calc(100% - (100% - 24px));
+        left: -15px;
+        display: block;
+        height: calc(100% - 96px);
+        width: 10px;
+        border-top: 2px solid var(--textColorPrimary);
+        border-right: 2px solid var(--textColorPrimary);
+        border-radius: 0 15px 0 0px;
+        content: "";
+      }
+    }
+
+    div {
+      cursor: pointer;
+    }
+  }
+}

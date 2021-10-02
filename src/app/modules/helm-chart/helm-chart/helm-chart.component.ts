@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { facDeveloperMode } from '../../shared/custom-icons/custom-icons';
 
 @Component({
   selector: 'app-helm-chart',
@@ -8,6 +9,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class HelmChartComponent implements OnInit {
   isReady = false;
+  developerMode = false;
+  facDeveloperMode = facDeveloperMode;
+
   @Input() helmChartGroup: FormGroup;
 
   constructor(private fb: FormBuilder) {}
@@ -15,7 +19,6 @@ export class HelmChartComponent implements OnInit {
   ngOnInit(): void {
     this.isReady = true;
     if (!this.helmChartGroup) {
-      console.log('does not exists')
       this.helmChartGroup = this.fb.group({
         name: this.fb.control('', [Validators.required]),
         path: this.fb.control('', [Validators.required]),
@@ -25,6 +28,6 @@ export class HelmChartComponent implements OnInit {
   }
 
   test(): string {
-    return JSON.stringify(this.helmChartGroup.value)
+    return JSON.stringify(this.helmChartGroup.value);
   }
 }
