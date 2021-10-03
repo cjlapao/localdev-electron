@@ -4,6 +4,8 @@
 }
 
 .developer-mode-wrapper {
-  background: rgba($color: #4c5c68, $alpha: 0.5);
   padding: 5px;
+  &.enabled {
+    background: rgba($color: #4c5c68, $alpha: 0.5);
+  }
 }

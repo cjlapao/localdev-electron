@@ -1,0 +1,56 @@
+.page {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  .page-header {
+    position: relative;
+    padding: 16px 0;
+    border-bottom: #fff solid 1px;
+    color: #fff;
+    display: grid;
+    grid-template: auto/ 60px 1fr auto;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 5px;
+
+    .page-icon {
+      display: flex;
+      align-items: center;
+    }
+
+    .page-title {
+      display: flex;
+      align-items: flex-start;
+
+      &.center {
+        align-items: center;
+      }
+
+      &.right {
+        align-items: flex-end;
+      }
+    }
+
+    .page-actions {
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+
+  .page-body {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .page-footer {
+    display: flex;
+  }
+}
+
+form {
+  width: 100%;
+}

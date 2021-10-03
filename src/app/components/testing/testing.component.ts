@@ -1,7 +1,12 @@
-import { facDeveloperMode } from './../../modules/shared/custom-icons/custom-icons';
+import {
+  facDeveloperMode,
+  facIvanti,
+  facValidate,
+} from './../../modules/shared/custom-icons/custom-icons';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faVial, faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
+import { LoggerService } from '../../services/logger.service';
 
 @Component({
   selector: 'app-testing',
@@ -11,11 +16,22 @@ import { faVial, faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 export class TestingComponent implements OnInit {
   faVial = faVial;
   faPlusCircle = faPlusCircle;
+  facIvanti = facIvanti;
+  facValidate = facValidate;
   isReady = false;
   chartTestValues: FormGroup;
   developerMode: boolean = false;
   facDeveloperMode = facDeveloperMode;
-  constructor(private fb: FormBuilder) {}
+  logs: string[];
+  constructor(
+    private fb: FormBuilder,
+    private logger: LoggerService<TestingComponent>
+  ) {
+    this.logs = [];
+    logger.log.subscribe((s) => {
+      this.logs.push(s);
+    });
+  }
 
   ngOnInit(): void {
     this.isReady = true;
@@ -44,6 +60,7 @@ export class TestingComponent implements OnInit {
   }
 
   testSave() {
+    this.logger.info('Clicked on a logger');
     console.log(this.chartTestValues.value);
     this.convertChartValuesToJson(this.chartValues.value);
   }
@@ -78,4 +95,8 @@ export class TestingComponent implements OnInit {
   }
 
   testObject() {}
+
+  testclick() {
+    console.log('button was clicked');
+  }
 }

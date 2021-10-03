@@ -1,6 +1,13 @@
-<div *ngIf="enable" class="developer-mode-wrapper">
-  <ng-content *ngIf="enable"></ng-content>
+<div class="developer-mode-wrapper" [class.enabled]="enable">
+  <div class="debug-tools">
+    <button type="button" mat-icon-button (click)="enable = !enable" color="accent">
+      <i class="icon svg focusable">
+        <fa-icon [icon]="facDeveloperMode"></fa-icon>
+      </i>
+    </button>
+  </div>
+
+  <ng-content></ng-content>
 </div>
-<div *ngIf="!enable">
-  <ng-content *ngIf="!enable"></ng-content>
-</div>
+<button (click)="testClick()">test query</button>
+<app-developer-actions></app-developer-actions>
