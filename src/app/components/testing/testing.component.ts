@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faVial, faPlusCircle } from '@fortawesome/pro-regular-svg-icons';
 import { LoggerService } from '../../services/logger.service';
+import { LogEntry, LogType } from '../../entities/logger';
+import { filter, pipe } from 'rxjs';
 
 @Component({
   selector: 'app-testing',
@@ -22,15 +24,11 @@ export class TestingComponent implements OnInit {
   chartTestValues: FormGroup;
   developerMode: boolean = false;
   facDeveloperMode = facDeveloperMode;
-  logs: string[];
-  constructor(
-    private fb: FormBuilder,
-    private logger: LoggerService<TestingComponent>
-  ) {
+  logs: LogEntry[];
+  constructor(private fb: FormBuilder, private logger: LoggerService) {
+    this.logger.className = 'TestingComponent';
     this.logs = [];
-    logger.log.subscribe((s) => {
-      this.logs.push(s);
-    });
+    // logger.log.subscribe(pipe(filter))
   }
 
   ngOnInit(): void {
@@ -60,7 +58,10 @@ export class TestingComponent implements OnInit {
   }
 
   testSave() {
+    this.logger.className = 'TestingComponent';
     this.logger.info('Clicked on a logger');
+    this.logger.className = 'TestingComponentTest';
+    this.logger.info('Clicked on a logger test');
     console.log(this.chartTestValues.value);
     this.convertChartValuesToJson(this.chartValues.value);
   }

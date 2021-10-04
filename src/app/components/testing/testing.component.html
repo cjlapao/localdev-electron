@@ -32,7 +32,7 @@
   </div>
   <div>
     <ul>
-      <li *ngFor="let logLine of logs">{{ logLine }}</li>
+      <li *ngFor="let logLine of logs" [class.info]="logLine.type === 'Info'">{{ logLine.message }}</li>
     </ul>
   </div>
 </div>

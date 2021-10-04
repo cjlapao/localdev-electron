@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { EventEmitter } from 'stream';
+import { Subject } from 'rxjs';
+import { LogEntry, LogType } from '../entities/logger';
 
-export enum LogType {
-  Info = 'Info',
-  Error = 'Error',
-  Warning = 'Warning',
-}
 @Injectable({
   providedIn: 'root',
 })
-export class LoggerService<T> {
-  private className: string;
-  private logLines: string[];
+export class LoggerService {
+  private logLines: LogEntry[];
   public displayTimestamp: false;
 
-  public log: Subject<string>;
+  public log: Subject<LogEntry>;
+  public className: string;
 
   constructor() {
-    this.log = new Subject<string>();
+    this.log = new Subject<LogEntry>();
     this.logLines = [];
   }
 
@@ -29,35 +24,42 @@ export class LoggerService<T> {
   }
 
   private addLog(type: LogType, message: any) {
-    let messageValue: string;
-    let line: string = '';
-    switch (typeof message) {
+    const logEntry: LogEntry = {
+      timestamp: new Date(),
+      class:
+        this.className && this.className !== 'undefined'
+          ? this.className
+          : null,
+      type: type,
+    };
+
+    const messageType = typeof message;
+    switch (messageType) {
       case 'string':
-        messageValue = message;
+        logEntry.message = message;
+        break;
       case 'object':
-        messageValue = JSON.stringify(message, null, 2);
+        logEntry.message = JSON.stringify(message, null, 2);
+        break;
       case 'boolean':
-        messageValue = (message as boolean) ? 'true' : 'false';
+        logEntry.message = (message as boolean) ? 'true' : 'false';
+        break;
       case 'number':
-        messageValue = (message as number).toString();
+        logEntry.message = (message as number).toString();
+        break;
       default:
-        messageValue = 'undefined';
+        logEntry.message = 'undefined';
+        break;
     }
-
-    if (this.displayTimestamp) {
-      line += `${Date.now} `;
-    }
-
-    if (this.className) {
-      line += `[${this.className}] `;
-    }
-
-    line += `${type}: ${messageValue}`;
 
     this.prune();
-    this.logLines.push(line);
-    this.log.next(line);
-    console.log(line);
+    this.logLines.push(logEntry);
+    console.log(
+      `${logEntry.timestamp ? logEntry.timestamp.toISOString() : ''} ${
+        logEntry.type
+      } ${logEntry.class ? logEntry.class : 'localdev'} ${logEntry.message}`
+    );
+    this.log.next(logEntry);
   }
 
   info(message: any) {
