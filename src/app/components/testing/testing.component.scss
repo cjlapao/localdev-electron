@@ -5,14 +5,50 @@
   flex-direction: column;
   align-items: flex-start;
 }
-.info {
-  color: blue;
-}
 
-.warning {
-  color: yellow;
-}
+.log-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: rgba($color: var(--layoutBackgroundRgb), $alpha: 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  overflow-x: auto;
 
-.error {
-  color: red;
+  ul.log-wrapper {
+    padding-left: 0;
+    flex-grow: 1;
+    padding: 10px;
+
+    li {
+      list-style: none;
+      display: grid;
+      grid-template: auto/auto auto auto 1fr;
+      grid-gap: 5px;
+
+      div {
+        white-space: pre-wrap;
+      }
+
+      &.info {
+        color: #bae1ff;
+      }
+
+      &.warning {
+        color: #ffdfba;
+      }
+
+      &.error {
+        color: #ab2330;
+      }
+
+      &.debug {
+        color: #b895ad;
+      }
+
+      &.trace {
+        color: #f3f3f3;
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject, filter } from 'rxjs';
 import { LogEntry, LogType } from '../entities/logger';
 
 @Injectable({
@@ -7,13 +7,12 @@ import { LogEntry, LogType } from '../entities/logger';
 })
 export class LoggerService {
   private logLines: LogEntry[];
-  public displayTimestamp: false;
+  private logSubject: Subject<LogEntry>;
 
-  public log: Subject<LogEntry>;
   public className: string;
 
   constructor() {
-    this.log = new Subject<LogEntry>();
+    this.logSubject = new Subject<LogEntry>();
     this.logLines = [];
   }
 
@@ -23,7 +22,7 @@ export class LoggerService {
     }
   }
 
-  private addLog(type: LogType, message: any) {
+  private addLog(type: LogType, message: any, object?: any) {
     const logEntry: LogEntry = {
       timestamp: new Date(),
       class:
@@ -33,23 +32,9 @@ export class LoggerService {
       type: type,
     };
 
-    const messageType = typeof message;
-    switch (messageType) {
-      case 'string':
-        logEntry.message = message;
-        break;
-      case 'object':
-        logEntry.message = JSON.stringify(message, null, 2);
-        break;
-      case 'boolean':
-        logEntry.message = (message as boolean) ? 'true' : 'false';
-        break;
-      case 'number':
-        logEntry.message = (message as number).toString();
-        break;
-      default:
-        logEntry.message = 'undefined';
-        break;
+    logEntry.message = this.stringify(message);
+    if (object) {
+      logEntry.object = this.stringify(object);
     }
 
     this.prune();
@@ -59,10 +44,55 @@ export class LoggerService {
         logEntry.type
       } ${logEntry.class ? logEntry.class : 'localdev'} ${logEntry.message}`
     );
-    this.log.next(logEntry);
+    this.logSubject.next(logEntry);
   }
 
-  info(message: any) {
-    this.addLog(LogType.Info, message);
+  private stringify(obj: any): string {
+    switch (typeof obj) {
+      case 'string':
+        return obj;
+      case 'object':
+        return JSON.stringify(obj, null, 2);
+      case 'boolean':
+        return (obj as boolean) ? 'true' : 'false';
+      case 'number':
+        return (obj as number).toString();
+      default:
+        return 'undefined';
+    }
+  }
+
+  getLogs(className?: string): Observable<LogEntry> {
+    if (className) {
+      return this.logSubject.pipe(filter((f) => f.class === className));
+    } else {
+      return this.logSubject;
+    }
+  }
+
+  info(message: any, obj?: any) {
+    this.addLog(LogType.Info, message, obj);
+  }
+
+  error(message: any, obj?: any) {
+    this.addLog(LogType.Error, message, obj);
+  }
+
+  warn(message: any, obj?: any) {
+    this.addLog(LogType.Warning, message, obj);
+  }
+
+  debug(message: any, obj?: any) {
+    this.addLog(LogType.Debug, message, obj);
+  }
+
+  trace(message: any, obj?: any) {
+    this.addLog(LogType.Trace, message, obj);
+  }
+
+  toString(logEntry: LogEntry): string {
+    return `${logEntry.timestamp ? logEntry.timestamp.toISOString() : ''} ${
+      logEntry.type
+    } ${logEntry.class ? logEntry.class : 'local-dev'} ${logEntry.message}`;
   }
 }

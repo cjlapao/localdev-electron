@@ -30,9 +30,38 @@
       <button mat-raised-button color="accent" (click)="testSave()" type="button">Test Save</button>
     </div>
   </div>
-  <div>
-    <ul>
-      <li *ngFor="let logLine of logs" [class.info]="logLine.type === 'Info'">{{ logLine.message }}</li>
+  <div class="log-container">
+    <div>
+      <mat-form-field>
+        <input mat-input type="text" />
+      </mat-form-field>
+    </div>
+    <ul class="log-wrapper">
+      <li
+        class="log-item"
+        *ngFor="let logLine of logs"
+        [class.info]="logLine.type === 'Info'"
+        [class.error]="logLine.type === 'Error'"
+        [class.warn]="logLine.type === 'Warn'"
+        [class.debug]="logLine.type === 'Debug'"
+        [class.trace]="logLine.type === 'Trace'"
+      >
+        <div *ngIf="logLine.timestamp">
+          {{ logLine.timestamp | date: "medium" }}
+        </div>
+        <div *ngIf="logLine.type">
+          {{ logLine.type }}
+        </div>
+        <div *ngIf="logLine.class">
+          {{ logLine.class }}
+        </div>
+        <div *ngIf="logLine.message">
+          {{ logLine.message }}
+          <div *ngIf="logLine.object">
+            {{ logLine.object }}
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
 </div>

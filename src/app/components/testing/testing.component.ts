@@ -25,10 +25,10 @@ export class TestingComponent implements OnInit {
   developerMode: boolean = false;
   facDeveloperMode = facDeveloperMode;
   logs: LogEntry[];
-  constructor(private fb: FormBuilder, private logger: LoggerService) {
+  constructor(private fb: FormBuilder, public logger: LoggerService) {
     this.logger.className = 'TestingComponent';
     this.logs = [];
-    // logger.log.subscribe(pipe(filter))
+    logger.getLogs('TestingComponent').subscribe((s) => this.logs.push(s));
   }
 
   ngOnInit(): void {
@@ -62,6 +62,13 @@ export class TestingComponent implements OnInit {
     this.logger.info('Clicked on a logger');
     this.logger.className = 'TestingComponentTest';
     this.logger.info('Clicked on a logger test');
+    this.logger.className = 'TestingComponent';
+    this.logger.info('file content', this.chartTestValues.value);
+    this.logger.error('Clicked on a logger test');
+    this.logger.warn('Clicked on a logger test');
+    this.logger.debug('Clicked on a logger test');
+    this.logger.trace('Clicked on a logger test');
+
     console.log(this.chartTestValues.value);
     this.convertChartValuesToJson(this.chartValues.value);
   }
