@@ -28,5 +28,6 @@
     "!Split",
     "!Split sequence"
   ],
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false
 }

@@ -104,7 +104,7 @@ export class TestingComponent implements OnInit {
 
   testObject() {}
 
-  testclick() {
+  testClick() {
     console.log('button was clicked');
   }
 }

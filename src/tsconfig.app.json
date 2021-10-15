@@ -14,7 +14,8 @@
     "**/*.d.ts"
   ],
   "exclude": [
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/node_modules/*"
   ],
   "angularCompilerOptions": {
     "strictTemplates": true,
