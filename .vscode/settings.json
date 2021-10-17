@@ -29,5 +29,32 @@
     "!Split sequence"
   ],
   "editor.formatOnSave": true,
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "cSpell.words": [
+    "keda",
+    "Saas",
+    "esversion",
+    "fontawesome",
+    "fortawesome",
+    "GETLATESTVERSION",
+    "GETLOCALVERSION",
+    "GETSTATUS",
+    "istio",
+    "Ivanti",
+    "Kiali",
+    "Kubeconfig",
+    "kubectl",
+    "Kubelet",
+    "Kubernetes",
+    "localdev",
+    "Minikube",
+    "MINIKUBESERVICE",
+    "MINIKUBESERVICERESPONSE",
+    "spaw",
+    "Spectron",
+    "tfstate",
+    "UPSERT",
+    "webhost",
+    "Whitespaces"
+  ]
 }
